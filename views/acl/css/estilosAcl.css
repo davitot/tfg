@@ -1,0 +1,36 @@
+#imagenAcl{
+    position: absolute;
+    top: 10px;
+    left: 79.5%;        
+}
+
+#listadoAcl{       
+    position:relative;      
+    top:100px;
+    left: 437px;
+    width: 375px;
+    height: 250px;
+    text-align: left;            
+    white-space:nowrap;
+}
+
+#listadoAcl_Cargos{       
+    position:relative;      
+    top:100px;
+    left: 35.5%;
+    width: 375px;
+    height: 250px;
+    text-align: left;            
+    white-space:nowrap;
+}
+
+.limpiar {
+    position:relative;
+    background: transparent;
+    width: auto;
+    text-align: left;
+    border: 0;
+}
+.limpiar:hover {
+    opacity: 0.5; 
+}
