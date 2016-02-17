@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.8, created on 2016-02-17 08:46:59
+<?php /* Smarty version Smarty-3.1.8, created on 2016-02-17 15:32:03
          compiled from "C:\xampp\htdocs\tfg\views\layout\default\template.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:123555c1ebb2e14932-99676284%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '76447dbeb5be39de3a4e1e70ca4144cd49f28558' => 
     array (
       0 => 'C:\\xampp\\htdocs\\tfg\\views\\layout\\default\\template.tpl',
-      1 => 1455690576,
+      1 => 1455719521,
       2 => 'file',
     ),
   ),
@@ -46,9 +46,15 @@ $_valid = $_smarty_tpl->decodeProperties(array (
         <meta content="TFG _ UCAVILA" name="description" />
         <meta content="migracion, proyecto, gestion" name="keywords" />
         <link href="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['ruta_css'];?>
-reset.css" rel="stylesheet" type="text/css" />              
+bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link href="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['ruta_css'];?>
-estilos.css" rel="stylesheet" type="text/css" />  
+font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['ruta_css'];?>
+bootstrap/sb-admin-2.css" rel="stylesheet" type="text/css" />
+        <link href="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['ruta_css'];?>
+reset.css" rel="stylesheet" type="text/css" />       
+        <link href="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['ruta_css'];?>
+estilos.css" rel="stylesheet" type="text/css" />        
         <script type="text/javascript">
             var _root_ = '<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['root'];?>
 ';
@@ -67,8 +73,8 @@ bootstrap.min.js" type="text/javascript"></script>
             <div id="tituloIndex">
                 <?php if (Session::get('autenticado')){?>                                                            
                     <h1><?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['configs']['app_name'];?>
-</h1>  
-                    <p>Gestión de Proyecto</p>
+</h1>
+                    <small><p>Gestión de Proyecto</p></small>
                 <?php }else{ ?>
                     <h1>Inicie sesión</h1>
                 <?php }?>                 

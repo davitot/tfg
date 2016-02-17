@@ -9,8 +9,11 @@
         <meta content="{$_layoutParams.configs.app_name}" name="author" />
         <meta content="TFG _ UCAVILA" name="description" />
         <meta content="migracion, proyecto, gestion" name="keywords" />
-        <link href="{$_layoutParams.ruta_css}reset.css" rel="stylesheet" type="text/css" />              
-        <link href="{$_layoutParams.ruta_css}estilos.css" rel="stylesheet" type="text/css" />  
+        <link href="{$_layoutParams.ruta_css}bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="{$_layoutParams.ruta_css}font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href="{$_layoutParams.ruta_css}bootstrap/sb-admin-2.css" rel="stylesheet" type="text/css" />
+        <link href="{$_layoutParams.ruta_css}reset.css" rel="stylesheet" type="text/css" />       
+        <link href="{$_layoutParams.ruta_css}estilos.css" rel="stylesheet" type="text/css" />        
         <script type="text/javascript">
             var _root_ = '{$_layoutParams.root}';
         </script>
@@ -25,8 +28,8 @@
         <header>                       
             <div id="tituloIndex">
                 {if Session::get('autenticado')}                                                            
-                    <h1>{$_layoutParams.configs.app_name}</h1>  
-                    <p>Gestión de Proyecto</p>
+                    <h1>{$_layoutParams.configs.app_name}</h1>
+                    <small><p>Gestión de Proyecto</p></small>
                 {else}
                     <h1>Inicie sesión</h1>
                 {/if}                 

@@ -33,9 +33,10 @@ Documento CSS - Index
 }
 
 #contadorReuniones{
+    width: 300px;
     position: absolute;
     top: 22%;    
-    left: 15%;
+    left: 55%;
 }
 
 #tablaPtes{           

@@ -17,6 +17,11 @@ class indexPersonalModel extends Model {
         return $personal->fetchall();
     }
 
+    /**
+     * Obtiene los datos de una persona segun el criterio de los filtros
+     * @param type $condicion
+     * @return type
+     */
     public function getPersonalFiltro($condicion = false) {
         $personal = $this->_db->query("Select * from detalle_persona where activo != 2 $condicion order by idCargo, nombre asc");
         return $personal->fetchall();

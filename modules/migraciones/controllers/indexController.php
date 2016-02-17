@@ -4,6 +4,7 @@ class indexController extends migracionesController {
 
     private $_migraciones;
     private $_tarea;
+    private $_personal;
 
     /**
      * Constructor por defecto de la clase
@@ -80,7 +81,7 @@ class indexController extends migracionesController {
     public function editar_migracion($idMigracion) {                
         $this->_acl->acceso('gestionar_migraciones');
         $this->_view->assign('titulo', 'Editar Migracion');
-        //$this->_view->setJs(array('migraciones', 'tablas'));        
+        $this->_personal= $this->loadModel('indexPersonal', 'personal');
 
         if (!$this->filtrarInt($idMigracion)) {
             $this->redireccionar('migraciones');
@@ -102,6 +103,8 @@ class indexController extends migracionesController {
             $this->redireccionar('migraciones');
         }       
         $this->_view->assign('datos', $migracion);
+        $condicion= ' AND idPersonal = 2';
+        $this->_view->assign('persona', $this->_personal->getPersonalFiltro($condicion)[0]['nombre']);        
         $this->_view->renderizar('editar_migracion', 'migraciones');
     }
     
@@ -226,11 +229,15 @@ class indexController extends migracionesController {
         $this->_view->renderizar('ajax/informe_totalesTecComu', false, true);
     }
 
+    /**
+     * Carga el contenido de un fichero excel preformateado con las migraciones
+     * de una sede
+     */
     public function cargarExcel() {
         $this->_acl->acceso('gestionar_migraciones');
-        $this->_view->assign('titulo', 'Gestionar Migraciones');
+        /*$this->_view->assign('titulo', 'Gestionar Migraciones');
         $this->_view->setJs(array('migracion'));
-        $this->_view->setJsPlugin(array('jquery.validate'));
+        $this->_view->setJsPlugin(array('jquery.validate'));*/
 
         $fichExcel = $this->getPostParam('fichExcel');
 
@@ -270,6 +277,11 @@ class indexController extends migracionesController {
         }
     }
 
+    /**
+     * Muestra un resumen de migraciones realizadas segun comunidad, provincia 
+     * y sede
+     * @param type $pagina
+     */
     public function informe_totalesTecComu($pagina = false) {
         if (!$this->filtrarInt($pagina)) {
             $pagina = false;

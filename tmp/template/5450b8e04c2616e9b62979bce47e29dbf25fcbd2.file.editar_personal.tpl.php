@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.8, created on 2016-01-28 13:31:00
+<?php /* Smarty version Smarty-3.1.8, created on 2016-02-17 12:57:34
          compiled from "C:\xampp\htdocs\tfg\modules\personal\views\index\editar_personal.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:710056a9d0a1975f75-37558172%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '5450b8e04c2616e9b62979bce47e29dbf25fcbd2' => 
     array (
       0 => 'C:\\xampp\\htdocs\\tfg\\modules\\personal\\views\\index\\editar_personal.tpl',
-      1 => 1453984256,
+      1 => 1455710252,
       2 => 'file',
     ),
   ),
@@ -49,14 +49,14 @@ modules/personal/views/index/css/estilosPersonal.css" rel="stylesheet" type="tex
 
     function verRecursos(objeto) {
         objeto.style.display = (objeto.style.display === 'none') ? 'block' : 'none';
-        
-        if ((document.mostrarRecursos.src).indexOf('contraer')!==-1) {
+
+        if ((document.mostrarRecursos.src).indexOf('contraer') !== -1) {
             document.mostrarRecursos.src = '<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['ruta_img'];?>
-agregar.png'; 
-        }else{
+agregar.png';
+        } else {
             document.mostrarRecursos.src = '<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['ruta_img'];?>
-contraer.png'; 
-        }                        
+contraer.png';
+        }
     }
 </script>
 <!-- /Funciones JS -->
@@ -136,6 +136,7 @@ public/img/nav/atras.png" alt="Inicio"/></a>
                         <select id="cargo" name="cargo">
                             <option value=""><?php if (isset($_smarty_tpl->tpl_vars['datos']->value['cargo'])){?><?php echo $_smarty_tpl->tpl_vars['datos']->value['cargo'];?>
 <?php }?></option>
+                            <?php if (isset($_smarty_tpl->tpl_vars['cargos']->value)){?>
                             <?php  $_smarty_tpl->tpl_vars['cargo'] = new Smarty_Variable; $_smarty_tpl->tpl_vars['cargo']->_loop = false;
  $_from = $_smarty_tpl->tpl_vars['cargos']->value; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array');}
 foreach ($_from as $_smarty_tpl->tpl_vars['cargo']->key => $_smarty_tpl->tpl_vars['cargo']->value){
@@ -147,6 +148,7 @@ $_smarty_tpl->tpl_vars['cargo']->_loop = true;
 </option>                
                                 <?php }?>
                             <?php } ?>
+                            <?php }?>
                         </select>
                     </td>
                 </tr>
@@ -218,15 +220,10 @@ agregar.png" alt="" /></a></td>
 
     <!-- ListadoRecursos -->   
     <div id="listadoRecursos" style='display:none;'>    
-        <?php if (isset($_smarty_tpl->tpl_vars['recursosPersonal']->value)&&count($_smarty_tpl->tpl_vars['recursosPersonal']->value)){?>
-            <table id="tablaRecursos">
-                <tr>
-                    <td colspan="5" style="text-align: center; font-style: italic">
-                        Recursos asignados
-                    </td>
-                </tr>
-                <tr>
-                    <th>Tipo</th>
+        <?php if (isset($_smarty_tpl->tpl_vars['recursosPersonal']->value)&&count($_smarty_tpl->tpl_vars['recursosPersonal']->value)){?>            
+            <table id="tablaRecursos">            
+                <tr>                    
+                    <th colspan='2'>Tipo</th>
                     <th>Marca</th>
                     <th>Modelo</th>
                     <th>Fecha Alta</th>                                    
@@ -239,14 +236,43 @@ agregar.png" alt="" /></a></td>
 foreach ($_from as $_smarty_tpl->tpl_vars['dato']->key => $_smarty_tpl->tpl_vars['dato']->value){
 $_smarty_tpl->tpl_vars['dato']->_loop = true;
 ?>
-                    <tr>
-                        <td style="width: 12%;"><?php echo $_smarty_tpl->tpl_vars['dato']->value['tipo'];?>
+                    <tr style='vertical-align: middle;'>
+                        <td style='text-align: center;'>
+                            <?php ob_start();?><?php echo $_smarty_tpl->tpl_vars['dato']->value['tipo'];?>
+<?php $_tmp1=ob_get_clean();?><?php if ($_tmp1=='Portatil'){?>
+                                <img src="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['root'];?>
+/public/img/recursos/portatil.png" title="Portatil"/>
+                            <?php }else{ ?>
+                                <?php ob_start();?><?php echo $_smarty_tpl->tpl_vars['dato']->value['tipo'];?>
+<?php $_tmp2=ob_get_clean();?><?php if ($_tmp2=='Teclado'){?>
+                                    <img src="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['root'];?>
+/public/img/recursos/teclado.png" title="Teclado"/>                               
+                                <?php }else{ ?>
+                                    <?php ob_start();?><?php echo $_smarty_tpl->tpl_vars['dato']->value['tipo'];?>
+<?php $_tmp3=ob_get_clean();?><?php if ($_tmp3=='Raton'){?>
+                                        <img src="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['root'];?>
+/public/img/recursos/raton.png" title="Raton"/>                                    
+                                    <?php }else{ ?>
+                                        <?php ob_start();?><?php echo $_smarty_tpl->tpl_vars['dato']->value['tipo'];?>
+<?php $_tmp4=ob_get_clean();?><?php if ($_tmp4=='Monitor'){?>
+                                            <img src="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['root'];?>
+/public/img/recursos/monitor.png" title="Monitor"/>                                    
+                                        <?php }else{ ?>
+                                            <img src="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['root'];?>
+/public/img/recursos/movil.png" title="movil"/>
+                                        <?php }?>                                            
+
+                                    <?php }?>                                    
+                                <?php }?>
+                            <?php }?>
+                        </td> 
+                        <td><?php echo $_smarty_tpl->tpl_vars['dato']->value['tipo'];?>
 </td>
-                        <td style="width: 10%;"><?php echo $_smarty_tpl->tpl_vars['dato']->value['marca'];?>
+                        <td><?php echo $_smarty_tpl->tpl_vars['dato']->value['marca'];?>
 </td>
-                        <td style="width: 7%;"><?php echo $_smarty_tpl->tpl_vars['dato']->value['modelo'];?>
+                        <td><?php echo $_smarty_tpl->tpl_vars['dato']->value['modelo'];?>
 </td>                        
-                        <td style="text-align: center; width: 4%;"><?php echo $_smarty_tpl->tpl_vars['dato']->value['fecha_alta'];?>
+                        <td style="text-align: center;"><?php echo $_smarty_tpl->tpl_vars['dato']->value['fecha_alta'];?>
 </td>
                         <?php if (Session::acceso(Session::get('level'))){?>
                             <td style="width: 0.4%; text-align: center;"><a href="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['root'];?>
@@ -259,10 +285,21 @@ personal/index/eliminar_recurso/<?php echo $_smarty_tpl->tpl_vars['datos']->valu
                 <?php } ?>                
             </table>
         <?php }else{ ?>
-            <p><strong>No hay recursos asignados.</strong></p>
-            <p><img src="../../../../public/img/calendario_blank.png" alt=""/></p>
-            <?php }?> 
-            <?php if (isset($_smarty_tpl->tpl_vars['recursosLibres']->value)&&count($_smarty_tpl->tpl_vars['recursosLibres']->value)){?>
+            <br/>
+            <p>                
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['root'];?>
+public/img/recursos/portatil.png" title="portatil"/>&nbsp;
+                <img src="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['root'];?>
+public/img/recursos/teclado.png" title="Teclado"/>&nbsp;
+                <img src="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['root'];?>
+public/img/recursos/raton.png" title="Raton"/>&nbsp;
+                <img src="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['root'];?>
+public/img/recursos/movil.png" title="Movil"/>&nbsp;
+                <img src="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['root'];?>
+public/img/recursos/monitor.png" title="Monitor"/>
+            </p>            
+        <?php }?> 
+        <?php if (isset($_smarty_tpl->tpl_vars['recursosLibres']->value)&&count($_smarty_tpl->tpl_vars['recursosLibres']->value)){?>
             <form id="form1" method="post" action="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['root'];?>
 personal/index/agregar_recurso"
                   enctype="multipart/form-data">
@@ -271,13 +308,42 @@ personal/index/agregar_recurso"
                 <table id="tablaRecursosLibres">
                     <br>
                     <br>
-                    <th colspan='4'>Recursos Libres</th>              
+                    <th colspan='6'>Recursos Libres</th>              
                         <?php  $_smarty_tpl->tpl_vars['dato'] = new Smarty_Variable; $_smarty_tpl->tpl_vars['dato']->_loop = false;
  $_from = $_smarty_tpl->tpl_vars['recursosLibres']->value; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array');}
 foreach ($_from as $_smarty_tpl->tpl_vars['dato']->key => $_smarty_tpl->tpl_vars['dato']->value){
 $_smarty_tpl->tpl_vars['dato']->_loop = true;
 ?>
                         <tr>
+                            <td style='text-align:center;'>
+                                <?php ob_start();?><?php echo $_smarty_tpl->tpl_vars['dato']->value['tipo'];?>
+<?php $_tmp5=ob_get_clean();?><?php if ($_tmp5=='Portatil'){?>
+                                    <img src="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['root'];?>
+/public/img/recursos/portatil.png" title="Portatil"/>
+                                <?php }else{ ?>
+                                    <?php ob_start();?><?php echo $_smarty_tpl->tpl_vars['dato']->value['tipo'];?>
+<?php $_tmp6=ob_get_clean();?><?php if ($_tmp6=='Teclado'){?>
+                                        <img src="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['root'];?>
+/public/img/recursos/teclado.png" title="Teclado"/>                               
+                                    <?php }else{ ?>
+                                        <?php ob_start();?><?php echo $_smarty_tpl->tpl_vars['dato']->value['tipo'];?>
+<?php $_tmp7=ob_get_clean();?><?php if ($_tmp7=='Raton'){?>
+                                            <img src="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['root'];?>
+/public/img/recursos/raton.png" title="Raton"/>                                    
+                                        <?php }else{ ?>
+                                            <?php ob_start();?><?php echo $_smarty_tpl->tpl_vars['dato']->value['tipo'];?>
+<?php $_tmp8=ob_get_clean();?><?php if ($_tmp8=='Monitor'){?>
+                                                <img src="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['root'];?>
+/public/img/recursos/monitor.png" title="Monitor"/>                                    
+                                            <?php }else{ ?>
+                                                <img src="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['root'];?>
+/public/img/recursos/movil.png" title="movil"/>
+                                            <?php }?>                                            
+
+                                        <?php }?>                                    
+                                    <?php }?>
+                                <?php }?>
+                            </td>                             
                             <td>                                
                                 <?php echo $_smarty_tpl->tpl_vars['dato']->value['tipo'];?>
                                             
@@ -295,18 +361,30 @@ $_smarty_tpl->tpl_vars['dato']->_loop = true;
 ">
                             </td>
                         </tr> 
-                    <?php } ?>
-                    <tr>
-                        <td>
-                            <input type="submit" value="Guardar" class="button"/>
-                        </td>
-                    </tr>  
-                </table>    
+                    <?php } ?>                  
+                </table>
+                <br/>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="ok" class="insertar"/>                
             </form>
-        <?php }else{ ?>
-            <br>
-            <br>
-            <p style="font-size: 11px;">No hay recursos disponibles para asignar.</p>            
+        <?php }else{ ?>            
+            <br/>
+            <br/>
+            <p style="font-size: 11.5px;">  
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;No hay recursos libres.
+            </p>
+            <br/>            
+            <p>  
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['root'];?>
+public/img/recursos/portatil.png" title="portatil"/>&nbsp;
+                <img src="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['root'];?>
+public/img/recursos/teclado.png" title="Teclado"/>&nbsp;
+                <img src="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['root'];?>
+public/img/recursos/raton.png" title="Raton"/>&nbsp;
+                <img src="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['root'];?>
+public/img/recursos/movil.png" title="Movil"/>&nbsp;
+                <img src="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['root'];?>
+public/img/recursos/monitor.png" title="Monitor"/>
+            </p>            
         <?php }?>
     </div>
     <!-- /ListadoRecursos -->

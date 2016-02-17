@@ -1,11 +1,11 @@
 <link href="{$_layoutParams.root}modules/migraciones/views/index/css/estilosMigraciones.css" rel="stylesheet" type="text/css" />
 
 <!-- header -->
-<header>
-    <p style="font-size: 15px;">
-        Migracion ({$datos.idMigracion}): {$datos.comunidad}, {$datos.provincia}, {$datos.desc_sede} 
-    </p>
-</header>
+<div class="row">
+    <div class="col-md-12" style="padding-top: 5px;">
+        <h1 class="page-header">Tecnico: {$persona}</h1>
+    </div>       
+</div>
 
 <!-- nav  -->    
 <nav>
@@ -53,56 +53,43 @@
     </table>
 </nav>    
 
-<!-- Formulario 
-<div id="formulario">
+<!-- Formulario -->
+<div id="formulario" style="width:713px; left: 26%; top: 5%; background: ghostwhite;">    
     <form name="fnuevaTarea" method="post" action="">
         <input type="hidden" name="guardar" value="1" />
-        <input type="hidden" name="idMigracion" value="{$datos.idMigracoin}" />
-        <table>
+        <input type="hidden" name="idMigracion" value="{$datos.idMigracion}" />        
+        <table id="tablaEdicion">
             <tr>
-                <td width="61">       
-                    Usuario:
+                <td>       
+                    Nombre: 
                 </td>
-                <td colspan="4" >                                
-                    <input type="text" name="nombre" value="{$datos.nombre|default:""}" style="width: 330px;"/>
+                <td>                                
+                    <input type="text" name="nombre" value="{$datos.nombre|default:""}" style="width: auto;"/>
                 </td>
-            </tr>
-            <tr>
-                <td>        
-                    Provincia:
-                </td>                               
-                <td colspan="4">                    
-                    <input type="text" id="provincia" name="provincia" value="{$datos.provincia}" readonly="1">                         
+                <td>       
+                    Apellidos: 
                 </td>
+                <td>                                
+                    <input type="text" name="nombre" value="{$datos.apellidos|default:""}" style="width: auto;"/>
                 </td>
-            </tr>
-            <tr>
-                <td>        
-                    <label>Comunidad:</label>
-                </td>   
-                <td colspan="4">                    
-                    <input type="text" id="comunidad" name="comunidad" value="{$datos.comunidad}" readonly="1">                         
-                </td>
-            </tr>                                                             
-            <tr id="Migracion1" style="vertical-align: text-top; display:  none;">
-                <td>&nbsp;</td>
-                <td width="50">Comunidad:</td>
+            </tr>                                                                           
+            <tr>               
+                <td>Comunidad:</td>
                 <td width="auto">
                     <select id="comunidad" name="comunidad">  
                         <option value="{$datos.comunidad|default:""}">{$datos.comunidad|default:""}</option>
                     </select>
-                </td>
+                </td>           
                 <td width="50">Provincia:</td>                
                 <td width="80"><select id="provincia" name="provincia"> 
                         <option value="{$datos.provincia|default:""}">{$datos.provincia|default:""}</option>
                     </select>
                 </td>    
             </tr>
-            <tr id="Migracion2" style="vertical-align: text-top;display:  none;">
-                <td>&nbsp;</td>
+            <tr>                
                 <td width="50">Sede:</td>
-                <td width="auto"> <select id="sede" name="sede">   
-                        <option value="{$datos.sede|default:""}">{$datos.sede|default:""}</option>
+                <td width="80"> <select id="sede" name="sede">   
+                        <option value="{$datos.sede|default:""}">{$datos.desc_sede|default:""}</option>
                     </select> 
                 </td>
                 <td width="50">Organo:</td>                
@@ -110,38 +97,48 @@
                         <option value="{$datos.organo|default:""}">{$datos.organo|default:""}</option>                       
                     </select>
                 </td> 
+            </tr>            
+            <tr>
+                <td>
+                    Fecha inicio:
+                </td>
+                <td width="80">
+                    <input type="date" name="fechaInicio" value="{$datos.fecha_Inicio|default:""}"/>
+                </td>                
+                <td width="80">
+                    Fecha fin:
+                </td>
+                <td>
+                    <input type="date" name="fechaFin" value="{$datos.fecha_Fin|default:""}" />
+                </td>    
+            </tr>
+            <tr>
+                <td>
+                    Estado inicial:
+                </td>
+                <td>
+                    <input type="text" name="estadoInicial" value="{$datos.estado_inicial|default:""}"/>
+                </td>            
+                <td>
+                    Estado final:
+                </td>
+                <td colspan="2">
+                    <input type="text" name="estadoFinal" value="{$datos.estado_final|default:""}" />
+                </td>
             </tr>
             <tr>
                 <td style="vertical-align: top;" >
-                    Descripcion:
-                </td>                
+                    Observaciones:
+                </td>
                 <td colspan="4">
                     <textArea name="descripcion" style="width: 327px; height:60px;">{$datos.observaciones|default:""}</textArea>
-                </td>                
-            </tr>
-
-            <tr>
-                <td>
-                    F. inicio:
                 </td>
-                <td colspan="4">
-                    <input type="date" name="fechaInicio" value="{$datos.fecha_inicio|default:"Pendiente"}"/>
-                </td>    
             </tr>
             <tr>
-                <td>
-                    F. fin:
+                <td colspan="8" align="center">
+                    <input type="submit" class="btn btn-outline btn-primary" value="Guardar" />
                 </td>
-                <td colspan="2">
-                    <input type="date" name="fechaFin" value="{$datos.fecha_fin|default:"Pendiente"}" />
-                </td>    
-            </tr>                                                     
-            <tr>
-                <td colspan="6" align="center">
-                    <input type="submit" class="button" value="Guardar" />
-                </td>
-            </tr>          
+            </tr>
         </table>        
     </form>     
-</div>-->
-                
+</div>               

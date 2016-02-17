@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.8, created on 2016-01-28 09:28:09
+<?php /* Smarty version Smarty-3.1.8, created on 2016-02-17 12:57:51
          compiled from "C:\xampp\htdocs\tfg\views\acl\index.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:2562655c3117a7e1213-80163768%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '440323dcd9fa488902387faddf943c688dd44963' => 
     array (
       0 => 'C:\\xampp\\htdocs\\tfg\\views\\acl\\index.tpl',
-      1 => 1453406762,
+      1 => 1455690574,
       2 => 'file',
     ),
   ),
@@ -111,7 +111,7 @@ $_smarty_tpl->tpl_vars['rl']->_loop = true;
 public/img/accionesTabla/gestionada.png" title="Gestionada"/>
                             <?php }else{ ?>
                                 <img src="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['root'];?>
-views/tareas/img/accionesTabla/noGestionada.png" title="No Gestionada"/>
+public/img/accionesTabla/noGestionada.png" title="No Gestionada"/>
                             <?php }?>
                        </td>  
                      <td style="text-align: center;">

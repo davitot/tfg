@@ -95,11 +95,13 @@
                     <td>
                         <select id="cargo" name="cargo">
                             <option value="">{if isset($datos.cargo)}{$datos.cargo}{/if}</option>
+                            {if isset($cargos)}
                             {foreach from=$cargos item=cargo}                
                                 {if $datos.cargo neq $cargo.descripcion}    
                                     <option value="{$cargo.idCargo}">{$cargo.descripcion}</option>                
                                 {/if}
                             {/foreach}
+                            {/if}
                         </select>
                     </td>
                 </tr>

@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.8, created on 2016-02-10 10:10:21
+<?php /* Smarty version Smarty-3.1.8, created on 2016-02-17 09:03:27
          compiled from "C:\xampp\htdocs\tfg\modules\migraciones\views\index\informe_totalesTecComu.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:200356b9cad0a9b8f2-12003370%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'cf343f378906b37753bd2b2f2e5c3c12029d6414' => 
     array (
       0 => 'C:\\xampp\\htdocs\\tfg\\modules\\migraciones\\views\\index\\informe_totalesTecComu.tpl',
-      1 => 1455050331,
+      1 => 1455690557,
       2 => 'file',
     ),
   ),

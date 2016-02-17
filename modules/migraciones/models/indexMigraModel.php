@@ -2,6 +2,9 @@
 
 class indexMigraModel extends Model {
 
+    /**
+     * Constructor por defecto de la clase
+     */
     public function __construct() {
         parent::__construct();
         Session::tiempo();
@@ -11,17 +14,29 @@ class indexMigraModel extends Model {
      * obtiene el total de registros de la tabla migraciones.
      * @return type array
      */
-    public function getMigraciones($condicion = false) {                
+    public function getMigraciones($condicion = false) {
         $migraciones = $this->_db->query("select * from migraciones where idMigracion > 0 $condicion order BY " .
                 "comunidad, provincia, desc_sede, organo, tipo, apellidos, nombre");
         return $migraciones->fetchAll();
     }
-    
-     public function getMigracion($idMigracion, $condicion = false) {
+
+    /**
+     * Devuelve los datos de una migracion para su edicion
+     * @param type $idMigracion
+     * @param type $condicion
+     * @return type
+     */
+    public function getMigracion($idMigracion, $condicion = false) {
         $migraciones = $this->_db->query("select * from migraciones where idMigracion = $idMigracion $condicion ");
         return $migraciones->fetch();
     }
 
+    /**
+     * Obtiene los totales de realizadas, pendientes y no aplica por comunidad,
+     * provincia y sede
+     * @param type $condicion
+     * @return type
+     */
     public function getResultados($condicion = false) {
 
         $auxResultados = $this->_db->query("select * from informe_migraciones where comunidad!='' $condicion order BY " .
@@ -30,59 +45,103 @@ class indexMigraModel extends Model {
         return $resultados;
     }
 
+    /**
+     * Devuelve el total de realizadas por com->prov->sede->tecnico
+     * @return type
+     */
     public function getRealizadas() {
         $auxRealizadas = $this->_db->query("select comunidad, sum(realizadas) as realizadas from migraciones_realizadas group by comunidad order by comunidad");
         $realizadas = $auxRealizadas->fetchAll();
         return $realizadas;
     }
 
+    /**
+     * Devuelve el total de pendientes por com->prov->sede->tecnico
+     * @return type
+     */
     public function getPendientes() {
         $auxPendientes = $this->_db->query("select comunidad, sum(pendientes) as pendientes from migraciones_pendientes group by comunidad order by comunidad");
         $pendientes = $auxPendientes->fetchAll();
         return $pendientes;
     }
 
+    /**
+     * Devuelve el total de no aplica por com->prov->sede->tecnico
+     * @return type
+     */
     public function getNoaplica() {
         $auxNoaplica = $this->_db->query("select comunidad, sum(no_aplica)as noAplica from migraciones_noaplica group by comunidad order by comunidad");
         $noAplica = $auxNoaplica->fetchAll();
         return $noAplica;
     }
 
+    /**
+     * Devuelve la cantidad de registros con realizadas, pendientes o no aplica
+     * que tienen algun organo con algun estado mayor de cero.
+     * @param type $condicion
+     * @return type
+     */
     public function getContadorResultados($condicion = false) {
         $contador = $this->_db->query("select count(comunidad) from informe_migraciones where comunidad != '' $condicion");
         $auxContador = $contador->fetch();
         return $auxContador[0];
     }
 
+    /**
+     * Devuelve las comunidades que tienen algun organo insertado en migraciones.
+     * @return type
+     */
     public function getComunidades() {
         $auxComunidad = $this->_db->query("select distinct comunidad from informe_migraciones order by comunidad");
         $comunidades = $auxComunidad->fetchAll();
         return $comunidades;
     }
 
+    /**
+     * Devuelve las provincias que tienen algun organo insertado en migraciones.
+     * @return type
+     */
     public function getProvincias() {
         $auxProvincias = $this->_db->query("select distinct provincia from informe_migraciones order by provincia");
         $provincias = $auxProvincias->fetchAll();
         return $provincias;
     }
 
+    /**
+     * Devuelve las sedes que tienen algun organo insertado en migraciones.
+     * @return type
+     */
     public function getSedes() {
         $auxSedes = $this->_db->query("select distinct sede from informe_migraciones order by sede");
         $sedes = $auxSedes->fetchAll();
         return $sedes;
     }
 
+    /**
+     * Devuelve to total de registros que hay en la tabla migraciones
+     * @param type $condicion
+     * @return type
+     */
     public function getRegistros($condicion = false) {
         $contador = $this->_db->query("select count(idMigracion) from migraciones where idMigracion > 0 $condicion");
         $auxContador = $contador->fetch();
         return $auxContador[0];
     }
 
+    /**
+     * Devuelve los procesos insertados en migraciones.
+     * @return type
+     */
     public function getProcesos() {
         $migraciones = $this->_db->query("SELECT distinct proceso FROM migraciones order by proceso");
         return $migraciones->fetchAll();
     }
 
+    /**
+     * Devuelve los totales realizados por un tecnico agrupados por comunidad
+     * @param type $condicion
+     * @return type
+     */
     public function getTotalesXcomu($condicion = false) {
         $totales = $this->_db->query("select * from migraciones_tecnicoxcomunidad where totales > 0 $condicion");
         $auxTotales = $totales->fetchall();
@@ -108,7 +167,7 @@ class indexMigraModel extends Model {
                 case 2:
                     //Es un jefe de equipo lo suyo y los tecnicos de migracion (level 5)
                     $sql = "select * from listado_tareas " .
-                            "where (idCargo = '2' OR idCargo = '5') " . 
+                            "where (idCargo = '2' OR idCargo = '5') " .
                             "order by comunidad, fecha_Inicio, idCargo, tecnico";
                     break;
 
@@ -181,7 +240,7 @@ class indexMigraModel extends Model {
     }
 
     /**
-     * 
+     * Edita el contenido de la celda al salir de ella en migraciones/index
      * @param type $auxTitulo
      * @param type $auxValor
      * @param type $auxidMigracion
@@ -205,8 +264,6 @@ class indexMigraModel extends Model {
         }
     }
 
-    
-    
     /**
      * Verifica si ya existe el usuario para no duplicar
      * @param type $idLotus

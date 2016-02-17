@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.8, created on 2016-02-10 10:10:51
+<?php /* Smarty version Smarty-3.1.8, created on 2016-02-17 09:09:14
          compiled from "C:\xampp\htdocs\tfg\modules\migraciones\views\index\tareas_tecnico.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:2601156bafe9b0985f1-94098696%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '2e2b9ed0fadaaa1ca8cc0868f754eb79b7d4aef0' => 
     array (
       0 => 'C:\\xampp\\htdocs\\tfg\\modules\\migraciones\\views\\index\\tareas_tecnico.tpl',
-      1 => 1455050331,
+      1 => 1455690558,
       2 => 'file',
     ),
   ),
@@ -15,6 +15,8 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   'function' => 
   array (
   ),
+  'version' => 'Smarty-3.1.8',
+  'unifunc' => 'content_56bafe9b1ec3c0_87817316',
   'variables' => 
   array (
     '_layoutParams' => 0,
@@ -29,8 +31,6 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'paginacion' => 0,
   ),
   'has_nocache_code' => false,
-  'version' => 'Smarty-3.1.8',
-  'unifunc' => 'content_56bafe9b1ec3c0_87817316',
 ),false); /*/%%SmartyHeaderCode%%*/?>
 <?php if ($_valid && !is_callable('content_56bafe9b1ec3c0_87817316')) {function content_56bafe9b1ec3c0_87817316($_smarty_tpl) {?><?php if (!is_callable('smarty_modifier_date_format')) include 'C:\\xampp\\htdocs\\tfg\\libs\\smarty\\libs\\plugins\\modifier.date_format.php';
 ?><link href="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['root'];?>

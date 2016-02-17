@@ -34,22 +34,22 @@ nav table{
 #tituloIndex{   
     position: relative;
     color: #FFFFFF;    
-    width: 300px;
+    width: 150px;
     height: 50px;
-    text-align: right;          
+    text-align: left;
+    padding-left: 80px;
 }
 
 #tituloIndex h1{
     font-size: 1.5em;       
-    width: 200px;   
-    padding-top: 0px;
+    width: 350px;   
+    padding-top: 5px;
 }
 
 #tituloIndex p{
     font-size: 0.75em;         
-    width: 120px;   
+    width: 150px;   
     padding-top: 6px;
-    padding-left: 75px;    
 }
 
 #menuLogin{
@@ -217,13 +217,14 @@ body{
     text-align: left;       
 }
 
-#formulario table tr td input{    
-    /*width: auto;*/
+#formulario table tr td input, select{        
+    font-size: 13px;
 }
 
 #formulario table tr td 
 {
-   /*width: auto;*/
+   width: auto;
+   font-size: 13px;
 }
 
 #formulario table tr td image
