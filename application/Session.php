@@ -70,7 +70,7 @@ class Session {
         $role['usuario'] = 1;
 
         if (!array_key_exists($level, $role)) {
-            throw new Exception('Error de acceso');
+            header('location:' . BASE_URL . 'error/access/5050');
         } else {
             return $role[$level];
         }
@@ -121,7 +121,7 @@ class Session {
 
     public static function tiempo() {
         if (!Session::get('tiempo') || !defined('SESSION_TIME')) {
-            throw new Exception('No se ha iniciado la sesion');
+            header('location:' . BASE_URL . 'error/index/408');
         }
 
         if (SESSION_TIME == 0) {
@@ -137,5 +137,3 @@ class Session {
     }
 
 }
-
-?>

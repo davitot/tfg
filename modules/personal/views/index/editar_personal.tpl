@@ -5,7 +5,6 @@
     function mostrar(id) {
         obj1 = document.getElementById(id);
         id1 = obj1.getAttribute("id");
-
         switch (id1) {
             case "listadoRecursos":
                 verRecursos(obj1);
@@ -14,7 +13,7 @@
                 break;
         }
     }
-
+    ;
     function verRecursos(objeto) {
         objeto.style.display = (objeto.style.display === 'none') ? 'block' : 'none';
 
@@ -24,266 +23,218 @@
             document.mostrarRecursos.src = '{$_layoutParams.ruta_img}contraer.png';
         }
     }
+    ;
 </script>
 <!-- /Funciones JS -->
 
-<!-- nav -->            
-<nav>
-    <table style="text-align: center; font-size: 11px;">       
-        <tr>
-            <td>
-                <img src="{$_layoutParams.root}public/img/nav/vacio.png" alt="nada"/></a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                &nbsp;
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <img src="{$_layoutParams.root}public/img/nav/vacio.png" alt="nada"/></a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                &nbsp;
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <img src="{$_layoutParams.root}public/img/nav/vacio.png" alt="nada"/></a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                &nbsp;
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <a href="{$_layoutParams.root}personal"><img src="{$_layoutParams.root}public/img/nav/atras.png" alt="Inicio"/></a>
-            </td>
-        </tr>
-        <tr>
-            <td style="text-align: center;">
-                &nbsp;&nbsp;&nbsp;&nbsp;Volver
-            </td>
-        </tr>
-    </table>      
-</nav>
-<!-- /nav -->   
-
-<!-- Formulario datos Personal-->            
-<div>
-    <div id="formularioEditarPersonal">  
-        <form id="form1" method="post" action="">
-            <input type="hidden" name="guardar" value="1" />
-            <table>
-                <tr>
-                    <td>
-                        Nombre:
-                    </td>
-                    <td>
-                        <input type="text" name="nombre" value="{if isset($datos.nombre)}{$datos.nombre}{/if}" />
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Cargo:
-                    </td>
-                    <td>
-                        <select id="cargo" name="cargo">
-                            <option value="">{if isset($datos.cargo)}{$datos.cargo}{/if}</option>
-                            {if isset($cargos)}
-                            {foreach from=$cargos item=cargo}                
-                                {if $datos.cargo neq $cargo.descripcion}    
-                                    <option value="{$cargo.idCargo}">{$cargo.descripcion}</option>                
-                                {/if}
-                            {/foreach}
-                            {/if}
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Email:
-                    </td>
-                    <td>
-                        <input type="email" name="email" value="{if isset($datos.email)}{$datos.email}{/if}" />
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Fecha de alta:
-                    </td>
-                    <td>
-                        <input type="date" name="fechaIn" value="{if isset($datos.fecha_Incorporacion)}{$datos.fecha_Incorporacion}{/if}" />
-                    </td>
-                <tr>
-                    <td>
-                        Usuario:
-                    </td>
-                    <td>
-                        <input type="text" name="usuario" value="{if isset($datos.usuario)}{$datos.usuario}{/if}" />
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Password:
-                    </td>
-                    <td>
-                        <input type="password" name="pass" value="{if isset($datos.pass)}{$datos.pass}{/if}" />
-                    </td>
-                </tr>    
-                <tr>
-                    <td>                    
-                        Activo:
-                    </td>
-                    <td>
-                        <input type="checkbox" name="activa" value="1" {if ($datos.activo == 1)}checked="checked"{/if}/>
-                    </td>  
-                </tr>
-            </table>
-            <br>
-            <p style="margin-left: 27%; "><input type="submit" value="Guardar" class="button"/></p>   
-            <br>
-            <br>
-        </form>      
+<!-- header -->
+<div class="container">
+    <div class="col-md-6 col-md-push-3" >
+        <div class="page-header">
+            <h4>Editar Personal </h4>
+        </div>
     </div>
-    <!-- /Formulario datos Personal-->   
-
-    <!-- Contador Recursos Asignados -->    
-    <div id="contadorRecursos">
-        <table>
-            <tr>
-                <td><a href="" onclick="mostrar('listadoRecursos');
-                        return false;" ><img id="mostrarRecursos" name="mostrarRecursos" src="{$_layoutParams.ruta_img}agregar.png" alt="" /></a></td>
-                <td>Recursos asignados: {count($recursosPersonal)}</td>
-            </tr>
-        </table>
+    <!-- header -->
+    <div class="col-md-4 col-md-push-3">
+        <!-- ImagenPersonal-->
+        <img class="logoUp" src="{$_layoutParams.root}public/img/imgsUp/personal1.png" title="Personal"/>
+        <!-- ImagenPersonal-->
     </div>
-    <!-- /Contador Recursos Asignados -->           
-
-    <!-- ListadoRecursos -->   
-    <div id="listadoRecursos" style='display:none;'>    
-        {if isset($recursosPersonal) && count($recursosPersonal)}            
-            <table id="tablaRecursos">            
-                <tr>                    
-                    <th colspan='2'>Tipo</th>
-                    <th>Marca</th>
-                    <th>Modelo</th>
-                    <th>Fecha Alta</th>                                    
-                        {if Session::acceso(Session::get('level'))}
-                        <th colspan="1">Acciones</th>
-                        {/if}
-                </tr>
-                {foreach item=dato from=$recursosPersonal}
-                    <tr style='vertical-align: middle;'>
-                        <td style='text-align: center;'>
-                            {if {$dato.tipo}=='Portatil'}
-                                <img src="{$_layoutParams.root}/public/img/recursos/portatil.png" title="Portatil"/>
-                            {else}
-                                {if {$dato.tipo}=='Teclado'}
-                                    <img src="{$_layoutParams.root}/public/img/recursos/teclado.png" title="Teclado"/>                               
-                                {else}
-                                    {if {$dato.tipo}=='Raton'}
-                                        <img src="{$_layoutParams.root}/public/img/recursos/raton.png" title="Raton"/>                                    
-                                    {else}
-                                        {if {$dato.tipo}=='Monitor'}
-                                            <img src="{$_layoutParams.root}/public/img/recursos/monitor.png" title="Monitor"/>                                    
-                                        {else}
-                                            <img src="{$_layoutParams.root}/public/img/recursos/movil.png" title="movil"/>
-                                        {/if}                                            
-
-                                    {/if}                                    
-                                {/if}
-                            {/if}
-                        </td> 
-                        <td>{$dato.tipo}</td>
-                        <td>{$dato.marca}</td>
-                        <td>{$dato.modelo}</td>                        
-                        <td style="text-align: center;">{$dato.fecha_alta}</td>
-                        {if Session::acceso(Session::get('level'))}
-                            <td style="width: 0.4%; text-align: center;"><a href="{$_layoutParams.root}personal/index/eliminar_recurso/{$datos.idPersonal}/{$dato.idRecurso}"><img src="{$_layoutParams.root}/public/img/accionesTabla/eliminar.png" alt="Eliminar"/></a></td>                       
-                                {/if}
-                    </tr>
-                {/foreach}                
-            </table>
-        {else}
-            <br/>
-            <p>                
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="{$_layoutParams.root}public/img/recursos/portatil.png" title="portatil"/>&nbsp;
-                <img src="{$_layoutParams.root}public/img/recursos/teclado.png" title="Teclado"/>&nbsp;
-                <img src="{$_layoutParams.root}public/img/recursos/raton.png" title="Raton"/>&nbsp;
-                <img src="{$_layoutParams.root}public/img/recursos/movil.png" title="Movil"/>&nbsp;
-                <img src="{$_layoutParams.root}public/img/recursos/monitor.png" title="Monitor"/>
-            </p>            
-        {/if} 
-        {if isset($recursosLibres) && count($recursosLibres) }
-            <form id="form1" method="post" action="{$_layoutParams.root}personal/index/agregar_recurso"
-                  enctype="multipart/form-data">
-                <input type="hidden" name="idPersonal" value="{$datos.idPersonal}" />
-                <table id="tablaRecursosLibres">
-                    <br>
-                    <br>
-                    <th colspan='6'>Recursos Libres</th>              
-                        {foreach item=dato from=$recursosLibres}
-                        <tr>
-                            <td style='text-align:center;'>
-                                {if {$dato.tipo}=='Portatil'}
-                                    <img src="{$_layoutParams.root}/public/img/recursos/portatil.png" title="Portatil"/>
-                                {else}
-                                    {if {$dato.tipo}=='Teclado'}
-                                        <img src="{$_layoutParams.root}/public/img/recursos/teclado.png" title="Teclado"/>                               
-                                    {else}
-                                        {if {$dato.tipo}=='Raton'}
-                                            <img src="{$_layoutParams.root}/public/img/recursos/raton.png" title="Raton"/>                                    
-                                        {else}
-                                            {if {$dato.tipo}=='Monitor'}
-                                                <img src="{$_layoutParams.root}/public/img/recursos/monitor.png" title="Monitor"/>                                    
-                                            {else}
-                                                <img src="{$_layoutParams.root}/public/img/recursos/movil.png" title="movil"/>
-                                            {/if}                                            
-
-                                        {/if}                                    
-                                    {/if}
-                                {/if}
-                            </td>                             
-                            <td>                                
-                                {$dato.tipo}                                            
-                            </td>                
-                            <td>
-                                {$dato.marca}
-                            </td>
-                            <td>
-                                {$dato.modelo}
-                            </td>
-                            <td>
-                                <input name="recLibres[]" type="checkbox" value="{$dato.idRecurso}">
-                            </td>
-                        </tr> 
-                    {/foreach}                  
-                </table>
-                <br/>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="ok" class="insertar"/>                
-            </form>
-        {else}            
-            <br/>
-            <br/>
-            <p style="font-size: 11.5px;">  
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;No hay recursos libres.
-            </p>
-            <br/>            
-            <p>  
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="{$_layoutParams.root}public/img/recursos/portatil.png" title="portatil"/>&nbsp;
-                <img src="{$_layoutParams.root}public/img/recursos/teclado.png" title="Teclado"/>&nbsp;
-                <img src="{$_layoutParams.root}public/img/recursos/raton.png" title="Raton"/>&nbsp;
-                <img src="{$_layoutParams.root}public/img/recursos/movil.png" title="Movil"/>&nbsp;
-                <img src="{$_layoutParams.root}public/img/recursos/monitor.png" title="Monitor"/>
-            </p>            
-        {/if}
-    </div>
-    <!-- /ListadoRecursos -->
 </div>
-<!-- /Formulario datos Personal-->   
+<!-- /Header -->
+
+<!-- Formulario Edicion Personal-->
+<div class="container">
+    <!-- Fila Principal -->
+    <div class="row">
+        <!-- Contenedor Principal -->
+        <div class="col-md-9 col-md-push-1" id="formulario">
+            <!-- Campos Personal -->
+            <div class="col-md-7 col-md-push-0">
+                <form class="form-horizontal" id="formPersonal" method="post" action="" enctype="multipart/form-data">
+                    <input type="hidden" name="guardar" value="1" />
+                    <div class="form-group">
+                        <label class="control-label col-xs-3">Nombre:</label>
+                        <div class="col-xs-9">
+                            <input type="text" name="nombre" class="form-control" value="{$datos.nombre|default:""}" placeholder="Nombre">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3">Cargo:</label>
+                        <div class="col-xs-9">
+                            <select class="form-control" name="cargo">
+                              <!--<option value="{$cargo.idCargo|default:""}">{$datos.cargo|default:""}</option>-->
+                                {if isset($cargos)}
+                                    {foreach from=$cargos item=cargo}
+                                        {if $datos.cargo eq $cargo.descripcion}
+                                            <option value="{$cargo.idCargo}" selected="selected">{$cargo.descripcion}</option>
+                                        {else}
+                                            <option value="{$cargo.idCargo}">{$cargo.descripcion}</option>
+                                        {/if}
+                                    {/foreach}
+                                {/if}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3">Email:</label>
+                        <div class="col-xs-9">
+                            <input type="email" class="form-control" name="email" value="{$datos.email|default:""}" placeholder="Email">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3">F. Alta:</label>
+                        <div class="col-xs-9">
+                            <input type="date" name="fechaIn" class="form-control" value="{$datos.fecha_Incorporacion|default:''}" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3">Usuario:</label>
+                        <div class="col-xs-9">
+                            <input type="text" name="usuario" class="form-control" value="{$datos.usuario|default:""}" placeholder="Usuario"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3">Password:</label>
+                        <div class="col-xs-9">
+                            <input type="password" class="form-control" name="pass" value="{$datos.pass|default:""}" placeholder="Password">
+                        </div>
+                    </div>
+                    <div class="form-group text-left">
+                      <label class="control-label col-xs-3">Activo: </label>
+                      <div class="col-xs-9">
+                                <input type="checkbox" style="margin: 10px 0 0 0;" class="control-label" name="activo" value="1" {if ($datos.activo == 1)}checked="checked"{/if}/>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-11 col-xs-push-1">
+                            <button type="submit" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;Guardar</button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <!-- /Campos Personal -->
+
+            <!-- Campos Recursos -->
+            <div class="col-md-5 col-md-push-0">
+                <!-- Contador Recursos Asignados -->
+                <a href="" onclick="mostrar('listadoRecursos');
+                        return false;" ><img id="mostrarRecursos" name="mostrarRecursos" src="{$_layoutParams.ruta_img}agregar.png" alt="" /><span>Recursos:</a>
+                <span class="badge">{count($recursosPersonal)}</span>
+                <!-- /Contador Recursos Asignados -->
+
+                <!-- /Container Tablas Recursos -->
+                <div class="container">
+                    <!-- Tablas Recursos -->
+                    <div id="listadoRecursos" style="display:none;">
+                        <div class="row">
+                            <div class="col-md-12 text-center" style="max-height: 155px; overflow-y: auto;">
+                                {if isset($recursosPersonal) && count($recursosPersonal)}
+                                    <br>
+                                    <table id="tablaRecursos">
+                                        <tr>
+                                            <th>Tipo</th>
+                                            <th>Marca</th>
+                                            <th>Modelo</th>
+                                            <th>Asignado</th>
+                                                {if Session::acceso(Session::get('level'))}
+                                                <th colspan="1">Liberar</th>
+                                                {/if}
+                                        </tr>
+                                        {foreach item=dato from=$recursosPersonal}
+                                            <tr style='vertical-align: middle;'>
+                                                <td>{$dato.tipo}</td>
+                                                <td>{$dato.marca}</td>
+                                                <td>{$dato.modelo}</td>
+                                                <td style="text-align: center;">{$dato.fecha_asignacion|date_format:"%d/%m/%Y"}</td>
+                                                {if Session::acceso(Session::get('level'))}
+                                                    <td style="width: 0.4%; text-align: center;font-size:0.85em;"><a href="{$_layoutParams.root}personal/index/eliminar_recurso/{$datos.idPersonal}/{$dato.idRecurso}"><i class="glyphicon glyphicon-trash"></i></a></td>
+                                                {/if}
+                                            </tr>
+                                        {/foreach}
+                                    </table>
+                                {else}
+                                    <br/>
+                                    <p style="font-size: 11.5px;">
+                                        Sin recursos asignados.
+                                    </p>
+                                    <br/>
+                                    <p>
+                                        <img src="{$_layoutParams.root}public/img/recursos/portatil.png" title="portatil"/>&nbsp;
+                                        <img src="{$_layoutParams.root}public/img/recursos/teclado.png" title="Teclado"/>&nbsp;
+                                        <img src="{$_layoutParams.root}public/img/recursos/raton.png" title="Raton"/>&nbsp;
+                                        <img src="{$_layoutParams.root}public/img/recursos/movil.png" title="Movil"/>&nbsp;
+                                        <img src="{$_layoutParams.root}public/img/recursos/monitor.png" title="Monitor"/>
+                                    </p>
+                                {/if}
+                            </div>
+                            <!-- /Tabla Recursos Asignados -->
+                        </div>
+                        <!-- Tabla Recursos Libres -->
+                        <div class="row">
+                            {if isset($recursosLibres) && count($recursosLibres)}
+                                <br>
+                                <div class="col-md-12 col-md-push-1 text-center" style="max-height: 155px; overflow-y: auto;">
+                                    <form id="form1" method="post" action="{$_layoutParams.root}personal/index/agregar_recurso" enctype="multipart/form-data">
+                                        <input type="hidden" name="idPersonal" value="{$datos.idPersonal}" />
+                                        <table id="tablaRecursos">
+                                            <br>
+                                            <th colspan='5'>Recursos Libres</th>
+                                                {foreach item=dato from=$recursosLibres}
+                                                <tr>
+                                                    <td style='text-align:center;'>
+                                                        <img src="{$_layoutParams.root}/public/img/recursos/{$dato.tipo}.png" title="Recurso"/>
+                                                    </td>
+                                                    <td>
+                                                        {$dato.tipo}
+                                                    </td>
+                                                    <td>
+                                                        {$dato.marca}
+                                                    </td>
+                                                    <td>
+                                                        {$dato.modelo}
+                                                    </td>
+                                                    <td>
+                                                        <input name="recLibres[]" type="checkbox" value="{$dato.idRecurso}">
+                                                    </td>
+                                                </tr>
+                                            {/foreach}
+                                        </table>
+                                        <div class="row" style="padding-top:5px;">
+                                            <div class="col-md-10 text-center">
+                                                <button class="btn btn-primary btn-xs" type="submit">Asignar</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                {else}
+                                    <br/>
+                                    <p style="font-size: 11.5px; padding-left: 60px;">
+                                        No hay recursos disponibles.
+                                    </p>
+                                    <br/>
+                                    <p style="padding-left: 25px;">
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="{$_layoutParams.root}public/img/recursos/portatil.png" title="portatil"/>&nbsp;
+                                        <img src="{$_layoutParams.root}public/img/recursos/teclado.png" title="Teclado"/>&nbsp;
+                                        <img src="{$_layoutParams.root}public/img/recursos/raton.png" title="Raton"/>&nbsp;
+                                        <img src="{$_layoutParams.root}public/img/recursos/movil.png" title="Movil"/>&nbsp;
+                                        <img src="{$_layoutParams.root}public/img/recursos/monitor.png" title="Monitor"/>
+                                    </p>
+                                {/if}
+                            </div>
+                        </div>
+                        <!-- /Tabla Recursos Libres -->
+                    </div>
+                    <!-- /Tablas Recursos -->
+                </div>
+            </div>
+            <!-- /Container Tablas Recursos -->
+        </div>
+        <!-- /Campos Recursos -->
+    </div>
+    <!-- Fila Principal -->
+    <br>
+</div>
+<!-- /Contenedor Principal -->
+</div>
+<!-- /Formulario Edicion Personal-->

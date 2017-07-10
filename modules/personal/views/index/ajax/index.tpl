@@ -1,52 +1,64 @@
 <!-- listadoPersonal -->
-<div id="listadoIndex">
+<div class="row" >
+  <div class="col-xs-12 col-md-push-1 col-md-11" id="listadoIndex">
     {if isset($personal) && count($personal)}
-        <table id="tablaListado">
-            <tr>
-                <th>Nombre</th>
-                <th>Cargo</th>
-                <th>E-mail</th>
-                <th>Fecha Alta</th>                    
-                <th>Activo</th>                       
-                    {if Session::acceso(Session::get('level'))}
-                    <th colspan="3">Acciones</th>
-                    {/if}
-            </tr>
-
-            {foreach item=datos from=$personal}
-
-                <tr>
-                    <td style="width: 12%;">{$datos.nombre}</td>
-                    <td style="width: 10%;">{$datos.cargo}</td>
-                    <td style="width: 7%;">{$datos.email}</td>                        
-                    <td style="text-align: center; width: 4%;">{$datos.fecha_Incorporacion|date_format:"%d/%m/%Y"}</td>    
-                    <td style="text-align: center; width: 5%;">
-                        {if $datos.activo == 1}
-                            <img src="./public/img/accionesTabla/gestionada.png" title="Usuario activo"/>
-                        {else}
-                            <img src="./public/img/accionesTabla/noGestionada.png" title="Usuario inactivo"/>
-                        {/if}
-                    </td>  
-                    {if Session::acceso(Session::get('level'))}
-                        <td style="width: 0.4%; text-align: center;"><a href="./personal/index/editar_personal/{$datos.idPersonal}/{$datos.idCargo}"><img src="./public/img/accionesTabla/editar.png" alt="Editar"/></a></td>                        
-                        <td style="width: 0.4%; text-align: center;"><a href="./personal/index/eliminar_personal/{$datos.idPersonal}/{$datos.idCargo}"><img src="./public/img/accionesTabla/eliminar.png" alt="Eliminar"/></a></td>                        
-                        <td style="width: 0.4%; text-align: center;"><a href="../acl/permisos_cargo/{$datos.idCargo}"><img src="./public/img/accionesTabla/llave.png" alt="Permisos"/></a></td>            
-                            {/if}
-                </tr>
-            {/foreach}
-        </table>
-
-    {else}
-
-        <p><strong>No hay personal dado de alta.</strong></p>
-
-        <p><img src="./public/img/calendario_blank.png" alt="Sin resultados"/></p>
-
-    {/if}                       
+    <table id="tablaListado">
+      <tr>
+        <th>Nombre</th>
+        <th>Cargo</th>
+        <th>E-mail</th>
+        <th>Fecha Alta</th>
+        <th>Activo</th>
+        <th colspan="2">Acciones</th>
+      </tr>
+      {foreach item=datos from=$personal}
+      <tr>
+        <td>{$datos.nombre}</td>
+        <td>{$datos.cargo}</td>
+        <td>{$datos.email}</td>
+        <td style="text-align: center;">{$datos.fecha_Incorporacion|date_format:"%d/%m/%Y"}</td>
+        <td style="text-align: center;">
+          {if $datos.activo == 1}
+          <img src="./public/img/estados/gestionada.png" title="Usuario activo"/>
+          {else}
+          <img src="./public/img/estados/noGestionada.png" title="Usuario inactivo"/>
+          {/if}
+        </td>
+        {if Session::acceso(Session::get('level'))}
+        <td style="width: 0.5%; text-align: center;font-size: 0.9em"><a href="./personal/index/editar_personal/{$datos.idPersonal}/{$datos.idCargo}"><i class="glyphicon glyphicon-edit"></i></a></td>
+        <td style="width: 0.5%; text-align: center;font-size: 0.9em"><a href="./personal/index/eliminar_personal/{$datos.idPersonal}/{$datos.idCargo}"><i class="glyphicon glyphicon-trash"></i></a></td>
+        {else}
+        <td style="width: 0.5%; text-align: center;font-size: 0.9em"><i class="glyphicon glyphicon-edit"></i></td>
+        <td style="width: 0.5%; text-align: center;font-size: 0.9em"><i class="glyphicon glyphicon-trash"></i></td>
+        {/if}
+      </tr>
+      {/foreach}
+    </table>
+      {else}
+      <br>
+      <br>
+      <br>
+      <div class="col-md-12 text-center">
+        <strong>No hay Personal asociado al proyecto.</strong>
+        <img src="./public/img/noResults.png" alt="Sin resultados"/>
+      </div>
+      {/if}
+    </div>
 </div>
-<!-- listadoPersonal -->
+<!-- /listadoPersonal -->
 
-<!-- Paginacion -->
-<div id="paginacion">
+<!-- Pie de pagina -->
+<div class="row" style="padding-top:5px; padding-left: 17px;">
+  <!-- contador -->
+  <div class="col-xs-4 col-md-3" style="padding-top:15px;">
+    Registros: <span class="badge" style="background:#274891;">{$contador}</span>
+  </div>
+  <!-- /contador -->
+
+  <!-- Paginacion -->
+  <div class="col-xs-8 col-xs-pull-2 col-md-9 col-md-pull-2">
     {$paginacion|default:""}
+  </div>
+  <!-- Paginacion -->
 </div>
+<!-- /Pie de pagina -->

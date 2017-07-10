@@ -16,12 +16,12 @@ class pdfModel extends Model {
      * Muestra el informe de una tarea concreta.
      * @param type $migraciones
      */
-    public function generarInformeTarea($migraciones) {
+    public function generarInformeMigracion($migraciones) {
         //Orientacion, medida, tamaño pagina
         $this->_pdf = new FPDF('L', 'mm', 'A4');
         $this->_pdf->AddPage();
-        $this->Header();
-        $this->TituloArchivo('Tarea Migracion', '12/02/2016', $migraciones[0]['comunidad'] . ' - ' . $migraciones[0]['provincia'] . ' - ' . $migraciones[0]['desc_sede']);
+        $this->Header('Tarea Migracion');
+        $this->TituloArchivo('Tarea Migracion', $migraciones[0]['fecha_Planificada'], $migraciones[0]['comunidad'] . ' - ' . $migraciones[0]['provincia'] . ' - ' . $migraciones[0]['desc_sede'] . ' - ' . $migraciones[0]['organo']);
         $this->TablaTareaTecnico($migraciones);
         $this->_pdf->Output('listadoTarea.pdf', 'I');
     }
@@ -34,7 +34,7 @@ class pdfModel extends Model {
         //Orientacion, medida, tamaño pagina
         $this->_pdf = new FPDF('L', 'mm', 'A4');
         $this->_pdf->AddPage();
-        $this->Header();
+        $this->Header('Listado Migraciones');
         $this->TituloArchivo('Informe Estado Migraciones', false, false);
         $this->TablaResultadosEstado($migraciones);
         $this->_pdf->Output('pdf1.pdf', 'I');
@@ -48,7 +48,7 @@ class pdfModel extends Model {
         //Orientacion, medida, tamaño pagina
         $this->_pdf = new FPDF('L', 'mm', 'A4');
         $this->_pdf->AddPage();
-        $this->Header();
+        $this->Header('Listado Tareas');
         $this->TituloArchivo('Informe Tareas', false, false);
         $this->TablaResultadosTareas($tareas);
         $this->_pdf->Output('listadoTareas.pdf', 'I');
@@ -62,11 +62,11 @@ class pdfModel extends Model {
      */
     function TituloArchivo($titulo = false, $fecha = false, $organo = false) {
         $this->posicionar(0.5, 27);
-        //Arial 12        
+        //Arial 12
         $this->_pdf->SetFont('Arial', '', 12);
         //Color de fondo
         $this->_pdf->SetFillColor(200, 220, 255);
-        //Título        
+        //Título
         $this->_pdf->Cell(0, 6, utf8_decode($titulo), 0, 1, 'L', true);
 
         if (isset($fecha) && $fecha) {
@@ -100,9 +100,9 @@ class pdfModel extends Model {
         $this->_pdf->SetFont('Arial', 'B', 8);
         //Cabecera
         $this->_pdf->Cell(15, 5, 'Tipo', 1, 0, 'C', 1);
+        $this->_pdf->Cell(20, 5, 'idLotus', 1, 0, 'C', 1);
         $this->_pdf->Cell(60, 5, 'Nombre', 1, 0, 'C', 1);
         $this->_pdf->Cell(41.5, 5, 'Cargo', 1, 0, 'C', 1);
-        $this->_pdf->Cell(20, 5, 'Traveler', 1, 0, 'C', 1);
         $this->_pdf->Cell(20, 5, 'Estado', 1, 0, 'C', 1);
         $this->_pdf->Cell(20, 5, 'Finalizada', 1, 0, 'C', 1);
         $this->_pdf->Cell(100, 5, 'Observaciones', 1, 0, 'C', 1);
@@ -121,9 +121,9 @@ class pdfModel extends Model {
                 $fill = false;
             }
             $this->_pdf->Cell(15, 6, utf8_decode($migracion['tipo']), 1, 0, 'C', $fill);
+            $this->_pdf->Cell(20, 6, $migracion['idLotus'], 1, 0, 'C', $fill);
             $this->_pdf->Cell(60, 6, utf8_decode($migracion['nombre']) . ' ' . utf8_decode($migracion['apellidos']), 1, 0, 'L', $fill);
             $this->_pdf->Cell(41.5, 6, utf8_decode($migracion['cargo']), 1, 0, 'L', $fill);
-            $this->_pdf->Cell(20, 6, $migracion['traveler'], 1, 0, 'C', $fill);
             $this->_pdf->Cell(20, 6, $migracion['estado_inicial'], 1, 0, 'C', $fill);
             $this->_pdf->Cell(20, 6, $migracion['fecha_Fin'], 1, 0, 'C', $fill);
             $this->_pdf->Cell(100, 6, $migracion['observaciones'], 1, 0, 'L', $fill);
@@ -149,7 +149,6 @@ class pdfModel extends Model {
         $this->_pdf->Cell(100, 5, 'Tarea', 1, 0, 'C', 1);
         $this->_pdf->Cell(20, 5, 'Fecha Inicio', 1, 0, 'C', 1);
         $this->_pdf->Cell(20, 5, 'Fecha Fin', 1, 0, 'C', 1);
-        $this->_pdf->Cell(20, 5, 'Finalizada', 1, 0, 'C', 1);
 
         $this->_pdf->Ln();
         //Restauración de colores y fuentes
@@ -168,10 +167,9 @@ class pdfModel extends Model {
             $this->_pdf->Cell(100, 6, utf8_decode($tarea['titulo']), 1, 0, 'L', $fill);
             $this->_pdf->Cell(20, 6, $tarea['fecha_inicio'], 1, 0, 'C', $fill);
             $this->_pdf->Cell(20, 6, $tarea['fecha_fin'], 1, 0, 'C', $fill);
-            $this->_pdf->Cell(20, 6, $tarea['activa'], 1, 0, 'C', $fill);
             $this->_pdf->Ln();
         }
-        $this->_pdf->Cell(210, 0, '', 'T');
+        $this->_pdf->Cell(200, 0, '', 'T');
     }
 
     /**
@@ -180,13 +178,13 @@ class pdfModel extends Model {
      */
     private function TablaResultadosEstado($migraciones) {
         $this->_pdf->SetY(36);
-        //Colores, ancho de línea y fuente en negrita        
+        //Colores, ancho de línea y fuente en negrita
         $this->_pdf->SetFillColor(176, 176, 176);
         $this->_pdf->SetTextColor(255);
         $this->_pdf->SetDrawColor(97, 97, 97);
         $this->_pdf->SetLineWidth(.3);
         $this->_pdf->SetFont('Arial', 'B', 8);
-        //Cabecera        
+        //Cabecera
         $this->_pdf->Cell(30, 5, 'Comunidad', 1, 0, 'C', 1);
         $this->_pdf->Cell(30, 5, 'Provincia', 1, 0, 'C', 1);
         $this->_pdf->Cell(30, 5, 'Sede', 1, 0, 'C', 1);
@@ -200,7 +198,7 @@ class pdfModel extends Model {
         $this->_pdf->SetFillColor(224, 235, 255);
         $this->_pdf->SetTextColor(0);
         $this->_pdf->SetFont('');
-        //Datos   
+        //Datos
         $fill = true;
         $comunidad = '';
         $provincia = '';
@@ -251,20 +249,19 @@ class pdfModel extends Model {
     /**
      * Cabecera
      */
-    private function Header() {
+    private function Header($titulo) {
         $this->_pdf->Image('./public/img/logos/lotus.png', 10, 7, 15);
         $this->_pdf->SetFont('Arial', 'B', 14);
         $this->_pdf->Cell(16);
-        $this->_pdf->Cell(20, 10, utf8_decode('Planificacion Tareas Migración'), 0, 0, 'L');
+        $this->_pdf->Cell(20, 10, utf8_decode($titulo), 0, 0, 'L');
     }
 
     /*
      * Muestra el listado de los resultado del resumen.
-     * 
+     *
      */
-
     private function TablaResultadosResumen($migraciones) {
-        //Colores, ancho de línea y fuente en negrita      
+        //Colores, ancho de línea y fuente en negrita
         $this->_pdf->SetY(53);
         $this->_pdf->SetFillColor(176, 176, 176);
         $this->_pdf->SetTextColor(255);
@@ -272,7 +269,7 @@ class pdfModel extends Model {
         $this->_pdf->SetLineWidth(.3);
         $this->_pdf->SetFont('Arial', 'B', 8);
 
-        //Cabecera        
+        //Cabecera
         $i = 0;
         $total = 0;
         $totalRealizadas = 0;

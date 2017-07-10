@@ -19,12 +19,12 @@ class aclController extends Controller {
     public function index() {
         $this->_acl->acceso('gestionar_acl');
         $this->_view->assign('titulo', 'Listas de acceso');
-        $this->_view->assign('roles', $this->_aclm->getCargos());
+        $this->_view->assign('roles', $this->_aclm->getCargos(1));
         $this->_view->renderizar('index');
     }
 
     /**
-     * 
+     *
      */
     public function cargos() {
         $this->_acl->acceso('gestionar_acl');
@@ -93,7 +93,7 @@ class aclController extends Controller {
         $this->getLibrary('paginador');
         $paginador = new Paginador();
 
-        $this->_view->assign('permisos', $paginador->paginar($this->_aclm->getPermisos(), $pagina, 10));        
+        $this->_view->assign('permisos', $paginador->paginar($this->_aclm->getPermisos(), $pagina, 10));
         $this->_view->assign('titulo', 'MigraGest');
         $this->_view->renderizar('permisos', 'acl');
     }
@@ -136,12 +136,13 @@ class aclController extends Controller {
             $this->_aclm->editarCargo(
                     $this->filtrarInt($idCargo), $this->getPostParam('cargo'), $this->getPostParam('activo')
             );
-            $modificado=1;                 
+            $modificado=1;
         }
          if ($modificado == 1) {
             $this->_view->assign('_mensaje', 'Modificacion correcta');
+            $this->redireccionar('acl');
         }
-        $this->_view->assign('datos', $this->_aclm->getCargo($this->filtrarInt($idCargo)));        
+        $this->_view->assign('datos', $this->_aclm->getCargo($this->filtrarInt($idCargo)));
         $this->_view->renderizar('editar_cargo');
     }
 
@@ -154,10 +155,10 @@ class aclController extends Controller {
             $this->_view->renderizar('nuevo_cargo', 'acl');
             exit;
         }
-    }  
+    }
 
     /**
-     * 
+     *
      * @param type $idCargo
      */
     public function eliminar_Cargo($idCargo) {
@@ -229,7 +230,7 @@ class aclController extends Controller {
         }
 
         $this->_view->assign('titulo', 'Editar permiso');
-        //$this->_view->setJs(array('nuevo'));      
+        //$this->_view->setJs(array('nuevo'));
 
         if ($this->getInt('guardar') == 1) {
             $this->_view->assign('datos', $_POST);
@@ -263,8 +264,8 @@ class aclController extends Controller {
      * @param type $idCargo
      */
     public function eliminar_Permiso($idPermiso) {
-        $this->_acl->acceso('gestionar_permisos');      
-        
+        $this->_acl->acceso('gestionar_permisos');
+
         //Validamos que las variables sean accesibles
         if (!$this->filtrarInt($idPermiso)) {
             $this->redireccionar('acl/permisos');

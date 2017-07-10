@@ -1,5 +1,5 @@
 $(document).on('ready', function () {
-    $(".pagina").live('click', function () {
+    $("body").on('click', '.pagina', function () {
         paginacion($(this).attr("pagina"));
     });
 
@@ -7,19 +7,20 @@ $(document).on('ready', function () {
         var pagina = 'pagina=' + auxPagina;
         var nombre = '&nombre=' + $("#nombre").val();
         var cargo = '&cargo=' + $("#cargo").val();
+        var activo = '&activo=' + $("#estado").val();
         var fechaInicio = '&fechaInicio=' + $("#fechaInicio").val();
 
-        $.post(_root_ + 'personal/index/paginacionAjax', pagina + nombre + cargo + fechaInicio, function (data) {
+        $.post(_root_ + 'personal/index/paginacionAjax', pagina + nombre + cargo + activo + fechaInicio, function (data) {
             $("#refrescar").html('');
             $("#refrescar").html(data);
         });
     };
-    
+
     $("#btnBuscar").click(function () {
-        //Limpiamos todos los filtros       
+        //Limpiamos todos los filtros
         paginacion();
     });
-    
+
     $("#nombre").change(function () {
         if ($("#nombre").val()) {
             paginacion();
@@ -29,6 +30,13 @@ $(document).on('ready', function () {
 
     $("#cargo").change(function () {
         if ($("#cargo").val()) {
+            paginacion();
+        }
+        ;
+    });
+
+    $("#estado").change(function () {
+        if ($("#estado").val()) {
             paginacion();
         }
         ;
@@ -45,29 +53,15 @@ $(document).on('ready', function () {
         limpiar();
         paginacion();
     });
-    
-     var limpiar = function () {
+
+    var limpiar = function () {
         //Limpiamos todos los filtros
         document.getElementById('nombre').value = '';
         document.getElementById('cargo').options[0].selected = true;
+        document.getElementById('estado').options[0].selected = true;
         $('input[type=date]')[0].valueAsDate = '';
-        
+
     };
-    
+
 
 });
-
-/*
-function capturar()
-{
-    var resultado = 0;
-
-    var activo = document.getElementsByName("activa");
-    if (activo[0].checked)
-        resultado = 1;
-
-    activo[0].value = resultado;
-    document.getElementById("form1").submit();
-}
-;*/
-    

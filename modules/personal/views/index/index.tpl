@@ -1,163 +1,130 @@
-<link href="{$_layoutParams.root}modules/personal/views/index/css/estilosPersonal.css" rel="stylesheet" type="text/css" />
+<link href="./modules/personal/views/index/css/estilosPersonal.css" rel="stylesheet" type="text/css" />
 
-<!-- header -->
-<header>
-    <h2>Gestión de Personal</h2>        
-</header>
-<!-- header -->
-
-<!-- Filtros -->
-<div class="filtros2 subfiltros">
-    <table>
-        <tr class="spaceUnder">
-            <td>
-                <input type="text" id="nombre" placeholder="Nombre">
-            </td>
-            <td  style="vertical-align: middle;">
-                <a href="#" onclick="paginacion();return false;" id="btnBuscar">&nbsp;&nbsp;<img src="{$_layoutParams.root}public/img/icono_lupa.png" title="Buscar"/></a>
-            </td>
-        </tr>        
-        <tr>
-            <td>
-                <select id="cargo" style="height: 20px;">
-                    <option>
-                        -- Cargo --
-                    </option>
-                    {if isset($cargos) && count($cargos)}
-                        {foreach from=$cargos item = per}
-                            <option value='{$per.idCargo}'>
-                                {$per.descripcion}   
-                            </option>                    
-                        {/foreach}
-                    {/if}
-                </select>
-            </td>
-            <td>
-                <input type="date" id="fechaInicio" style="height: 16px;"/>
-            </td>
-            <td style="vertical-align: middle;">                
-                <a href="#" onclick="limpiar();return false;" id="limpiarFecha">&nbsp;<img src="{$_layoutParams.root}public/img/brocha.png" title="Limpiar"/></a>               
-            </td>
-        </tr>
-    </table>
+<!-- Header -->
+<div class="container">
+    <!-- header -->
+    <div class="row">
+        <div class="col-md-6 col-md-push-3" >
+            <div class="page-header">
+                <h4>Gestión de Personal</h4>
+            </div>
+        </div>
+        <!-- ImagenPersonal-->
+        <div class="col-md-4 col-md-push-3">
+            <img class="logoUp" src="{$_layoutParams.root}public/img/imgsUp/personal1.png" title="Personal"/>
+        </div>
+        <!-- ImagenPersonal-->
+    </div>
+    <!-- /header -->
 </div>
+<!-- /Header -->
+
 <!-- Filtros -->
-
-<!-- nav-->
-<nav>
-    <table style="text-align: center; font-size: 11px;">
-        <tr>
-            <td>
-                {if Session::acceso(Session::get('level'))}  
-                    <a href="{$_layoutParams.root}personal/index/nuevo_personal"><img src="{$_layoutParams.root}public/img/nav/agregar.png" alt="Agregar"/></a>
-                    {else}                
-                    <img src="{$_layoutParams.root}public/img/nav/agregar_noacceso.png" alt="No permitido"/>
-                {/if}
-            </td>
-        </tr>
-        <tr>
-            <td style="text-align: center;">
-                &nbsp;&nbsp;&nbsp;&nbsp;Nuevo
-            </td>
-        </tr>
-        <tr>
-            <td>
-                {if Session::acceso(Session::get('level'))}            
-                    <a href="{$_layoutParams.root}acl"><img src="{$_layoutParams.root}public/img/nav/organigrama.png" alt="ACL"/></a>            
-                    {else}                
-                    <img src="{$_layoutParams.root}public/img/nav/organigrama_noacceso.png" alt="No permitido"/></a>            
-                {/if}
-            </td>
-        </tr>
-        <tr>
-            <td style="text-align: center;">
-                &nbsp;&nbsp;&nbsp;&nbsp;ACL
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <a href="{$_layoutParams.root}recursos"><img src="{$_layoutParams.root}public/img/nav/recursos.png" alt="Recursos"/></a>
-            </td>
-        </tr>
-        <tr>
-            <td style="text-align: center;">
-                &nbsp;&nbsp;&nbsp;&nbsp;Recursos
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <a href="{$_layoutParams.root}"><img src="{$_layoutParams.root}public/img/nav/atras.png" alt="Volver"/></a>
-            </td>
-        </tr>
-        <tr>
-            <td style="text-align: center;">
-                &nbsp;&nbsp;&nbsp;&nbsp;Volver
-            </td>
-        </tr>
-    </table>      
-</nav>
-<!-- nav-->
-
-<!-- refrescar -->
-<div id="refrescar">
-    <!-- listadoPersonal -->
-    <div id="listadoIndex">
-        {if isset($personal) && count($personal)}
-            <table id="tablaListado">
-                <tr>
-                    <th>Nombre</th>
-                    <th>Cargo</th>
-                    <th>E-mail</th>
-                    <th>Fecha Alta</th>                    
-                    <th>Activo</th>                       
-                        {if Session::acceso(Session::get('level'))}
-                        <th colspan="3">Acciones</th>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-11 col-xs-push-1 col-md-8 text-left filtros2 subfiltros">
+            <form action="" class="form-inline">
+                <div class="form-group">
+                    <input class="form-control" type="text" id="nombre" placeholder="Nombre">
+                </div>
+                <div class="form-group">
+                    <select class="form-control" id="cargo">
+                        <option>
+                            -- Cargo --
+                        </option>
+                        {if isset($cargos) && count($cargos)}
+                            {foreach from=$cargos item = per}
+                                <option value='{$per.idCargo}'>
+                                    {$per.descripcion}
+                                </option>
+                            {/foreach}
                         {/if}
-                </tr>
-
-                {foreach item=datos from=$personal}
-
-                    <tr>
-                        <td style="width: 12%;">{$datos.nombre}</td>
-                        <td style="width: 10%;">{$datos.cargo}</td>
-                        <td style="width: 7%;">{$datos.email}</td>                        
-                        <td style="text-align: center; width: 4%;">{$datos.fecha_Incorporacion|date_format:"%d/%m/%Y"}</td>    
-                        <td style="text-align: center; width: 5%;">
-                            {if $datos.activo == 1}
-                                <img src="{$_layoutParams.root}public/img/accionesTabla/gestionada.png" title="Usuario activo"/>
-                            {else}
-                                <img src="{$_layoutParams.root}public/img/accionesTabla/noGestionada.png" title="Usuario inactivo"/>
-                            {/if}
-                        </td>  
-                        {if Session::acceso(Session::get('level'))}
-                            <td style="width: 0.4%; text-align: center;"><a href="{$_layoutParams.root}personal/index/editar_personal/{$datos.idPersonal}/{$datos.idCargo}"><img src="./public/img/accionesTabla/editar.png" alt="Editar"/></a></td>                        
-                            <td style="width: 0.4%; text-align: center;"><a href="{$_layoutParams.root}personal/index/eliminar_personal/{$datos.idPersonal}/{$datos.idCargo}"><img src="./public/img/accionesTabla/eliminar.png" alt="Eliminar"/></a></td>                        
-                            <td style="width: 0.4%; text-align: center;"><a href="{$_layoutParams.root}acl/permisos_cargo/{$datos.idCargo}"><img src="./public/img/accionesTabla/llave.png" alt="Permisos"/></a></td>            
-                                {/if}
-                    </tr>
-                {/foreach}
-            </table>
-
-        {else}
-
-            <p><strong>No hay personal dado de alta.</strong></p>
-
-            <p><img src="./public/img/calendario_blank.png" alt="Sin resultados"/></p>
-
-        {/if}                       
+                    </select>
+                </div>
+                <div class="form-group">
+                  <select class="form-control" id="estado">
+                    <option value=''>-- Estado --</option>
+                    <option value='activo'>activo</option>
+                    <option value='inactivo'>inactivo</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="date" id="fechaInicio"/>
+                    <button type="button" class="btn" onclick="paginacion();
+                            return false;" style="background: transparent"><i class="fa fa-search-plus"></i></button>
+                    <button type="button" class="btn" id="limpiarFecha" style="background: transparent; padding-left:5px;"><i class="fa fa-times-circle "></i></button>
+                </div>
+            </form>
+        </div>
     </div>
+</div>
+<!-- Filtros -->
+
+<!-- Refrescar -->
+<div class="container" style="padding-top: 4px;" id="refrescar">
     <!-- listadoPersonal -->
-    
-    <!-- Paginacion -->
-    <div id="paginacion">
-        {$paginacion|default:""}
+    <div class="row" >
+        <div class="col-xs-12 col-md-push-1 col-md-11" id="listadoIndex">
+            {if isset($personal) && count($personal)}
+                <table id="tablaListado">
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Cargo</th>
+                        <th>E-mail</th>
+                        <th>Fecha Alta</th>
+                        <th>Activo</th>
+                        <th colspan="2">Acciones</th>
+                    </tr>
+                    {foreach item=datos from=$personal}
+                        <tr>
+                            <td>{$datos.nombre}</td>
+                            <td>{$datos.cargo}</td>
+                            <td>{$datos.email}</td>
+                            <td style="text-align: center;">{$datos.fecha_Incorporacion|date_format:"%d/%m/%Y"}</td>
+                            <td style="text-align: center;">
+                                {if $datos.activo == 1}
+                                    <img src="{$_layoutParams.root}public/img/estados/gestionada.png" title="Usuario activo"/>
+                                {else}
+                                    <img src="{$_layoutParams.root}public/img/estados/noGestionada.png" title="Usuario inactivo"/>
+                                {/if}
+                            </td>
+                            {if Session::acceso(Session::get('level'))}
+                                <td style="width: 0.5%; text-align: center;font-size: 0.9em"><a href="{$_layoutParams.root}personal/index/editar_personal/{$datos.idPersonal}/{$datos.idCargo}"><i class="glyphicon glyphicon-edit"></i></a></td>
+                                <td style="width: 0.5%; text-align: center;font-size: 0.9em"><a href="{$_layoutParams.root}personal/index/eliminar_personal/{$datos.idPersonal}/{$datos.idCargo}"><i class="glyphicon glyphicon-trash"></i></a></td>
+                                {else}
+                                <td style="width: 0.5%; text-align: center;font-size: 0.9em"><i class="glyphicon glyphicon-edit"></i></td>
+                                <td style="width: 0.5%; text-align: center;font-size: 0.9em"><i class="glyphicon glyphicon-trash"></i></td>
+                            {/if}
+                        </tr>
+                    {/foreach}
+                </table>
+            {else}
+                <br>
+                <br>
+                <br>
+                <div class="col-md-12 text-center">
+                    <strong>No hay Personal asociado al proyecto.</strong>
+                    <img src="./public/img/noResults.png" alt="Sin resultados"/>
+                </div>
+            {/if}
+        </div>
     </div>
-    <!-- Paginacion -->
-</div>
-<!-- refrescar -->
+    <!-- /listadoPersonal -->
 
-<!-- ImagenPersonal-->
-<div id="imagenUpDcha">
-    <img src="{$_layoutParams.root}public/img/imgsUp/personal.png" alt=""/>
+    <!-- Pie de pagina -->
+    <div class="row" style="padding-top:5px; padding-left: 17px;">
+        <!-- contador -->
+        <div class="col-xs-4 col-md-3" style="padding-top:15px;">
+            Registros: <span class="badge" style="background:#274891;">{$contador}</span>
+        </div>
+        <!-- /contador -->
+
+        <!-- Paginacion -->
+        <div class="col-xs-8 col-xs-pull-2 col-md-9 col-md-pull-2">
+            {$paginacion|default:""}
+        </div>
+        <!-- Paginacion -->
+    </div>
+    <!-- /Pie de pagina -->
 </div>
-<!-- ImagenPersonal-->
+<!-- /Refrescar -->

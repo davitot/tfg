@@ -21,12 +21,12 @@ class aclModel extends Model {
     }
 
     /**
-     * Devuelve todos los cargos dados de alta en el sistema
-     * @return type sql
+     * Devuelve los cargos activos en el proyecto
+     * @return type array
      */
-    public function getCargos() {
-        $role = $this->_db->query("select * from cargos");
-        return $role->fetchAll();
+    public function getCargos($activo) {
+        $cargos = $this->_db->query("select * from cargos where activo='$activo'");
+        return $cargos->fetchAll();
     }
 
     /**
@@ -38,20 +38,24 @@ class aclModel extends Model {
                 "INSERT INTO cargos VALUES" .
                 "(null, '{$cargo}', 1)"
         );
-                
+
         $auxUltimoP = $this->_db->query("select MAX(idPermiso) from permisos");
         $ultimoP = $auxUltimoP->fetch();
         $auxUltimoC = $this->_db->query("select MAX(idCargo) from cargos");
-        $ultimoC = $auxUltimoC->fetch();     
-        
+        $ultimoC = $auxUltimoC->fetch();
+
         for ($i = 1; $i <= $ultimoP[0]; $i++) {
             $this->_db->query(
                     "INSERT INTO permisos_has_cargos (idCargo, idPermiso) VALUES" .
                     "('$ultimoC[0]', '$i')"
             );
-        }                                
+        }
     }
 
+    /**
+     * Elimina un cargo del Sistema
+     * @param type $idCargo
+     */
     public function eliminarCargo($idCargo) {
         $this->_db->query("delete from cargos " .
                 "where idCargo=$idCargo");
@@ -59,6 +63,12 @@ class aclModel extends Model {
                 "where idCargo=$idCargo");
     }
 
+    /**
+     * Modifica los campos de un Cargo
+     * @param type $auxIdCargo
+     * @param type $auxCargo
+     * @param type $auxActivo
+     */
     public function editarCargo($auxIdCargo, $auxCargo, $auxActivo) {
         $idCargo = (int) $auxIdCargo;
         $cargo = $auxCargo;
@@ -73,6 +83,12 @@ class aclModel extends Model {
         ));
     }
 
+    /**
+     * Edita un permiso asociado a un cargo
+     * @param type $auxIdPermiso
+     * @param type $permiso
+     * @param type $llave
+     */
     public function editarPermiso($auxIdPermiso, $permiso, $llave) {
         $idPermiso = (int) $auxIdPermiso;
 
@@ -123,16 +139,21 @@ class aclModel extends Model {
     }
 
     /**
-     * Elimina un permiso de la tabla permisos     
+     * Elimina un permiso de la tabla permisos
      * @param type $idPermiso
      */
-    public function eliminarPermiso($idPermiso) {                       
-         $this->_db->query("delete from permisos_has_cargos " .
+    public function eliminarPermiso($idPermiso) {
+        $this->_db->query("delete from permisos_has_cargos " .
                 "where idPermiso=$idPermiso");
         $this->_db->query("delete from permisos " .
-                "where idPermiso=$idPermiso");       
+                "where idPermiso=$idPermiso");
     }
 
+    /**
+     * Obtiene el id de permiso desde la descripcion
+     * @param type $auxPermiso
+     * @return type
+     */
     public function getPermisoId($auxPermiso) {
         $permiso = (String) $auxPermiso;
 
@@ -225,4 +246,5 @@ class aclModel extends Model {
         }
         return $data;
     }
+
 }

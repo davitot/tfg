@@ -1,201 +1,182 @@
-<link href="{$_layoutParams.root}modules/migraciones/views/index/css/estilosMigracion.css" rel="stylesheet" type="text/css" />
-<!-- header -->
-<header>
-    <h2>Gestión de Migraciones</h2>      
-</header>  
-<!-- /header -->
+<link href="{$_layoutParams.root}/modules/migraciones/views/index/css/estilosMigracion.css" rel="stylesheet" type="text/css" />
+
+<!-- Header -->
+<div class="container">
+    <!-- header -->
+    <div class="row">
+        <div class="col-xs-12 col-md-6 col-md-push-3 text-center">
+            <div class="page-header">
+                <h4>Listado de trabajo</h4>
+            </div>
+        </div>
+        <!-- imagenMigracion -->
+        <div class="col-md-4 col-md-push-3" style="padding-top: 2px;">
+            <img class="logoUp" src="{$_layoutParams.root}public/img/imgsUp/mapas.jpg" title="Migraciones"/>
+        </div>
+        <!-- imagenMigracion -->
+    </div>
+    <!-- /header -->
+</div>
+<!-- /Header -->
 
 <!-- Filtros -->
-<div class="filtros2 subfiltros">
-    <table>        
-        <tr>
-            <td>
-                <select id="proceso" style="height: 24px;">
-                    <option value="">
-                        - Proceso -
-                    </option>
-                    {if isset($procesos) && count($procesos)}
-                        {foreach item=datos from=$procesos}                    
-                            <option value='{$datos.proceso}'>
-                                {$datos.proceso}   
-                            </option>                         
-                        {/foreach}
-                    {/if}
-                </select>                 
-            </td>
-            <td>
-                <select id="idPersonal" style="height: 21px;">
-                    <option value="">
-                        - Tecnico -
-                    </option>
-                    {if isset($tecnicos) && count($tecnicos)}
-                        {foreach from=$tecnicos item = tec}
-                            <option value='{$tec.idPersonal}'>
-                                {$tec.nombre}   
-                            </option>                    
-                        {/foreach}
-                    {/if}
-                </select>   
-            </td>
-            <td>
-                <select id="idTarea" style="height: 21px;">
-                    <option value="">
-                        - Tarea -
-                    </option>                    
-                </select>   
-            </td> 
-        </tr>
-        <tr>
-            <td><select id="estado" style="height: 24px;">
-                    <option value="">
-                        - Estado -
-                    </option>                    
-                    <option value='PENDIENTE'>
-                        Pendiente   
-                    </option>
-                    <option value='REALIZADA'>
-                        Realizada
-                    </option>
-                    <option value='NO APLICA'>
-                        No Aplica
-                    </option>
-                </select>   
-            </td>               
-            <td>
-                <input type="date" id="fechaInicio" style="height: 16px;"/>
-            </td>
-            <td>
-                <input type="date" id="fechaFin" style="height: 16px;"/>
-            </td>
-            <td style="vertical-align: middle;">                
-                <a href="#" onclick="limpiar();
-                        return false;" id="limpiarFecha">&nbsp;<img src="{$_layoutParams.root}public/img/brocha.png" title="Limpiar"/></a>               
-            </td>
-        </tr>
-    </table>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-11 col-xs-push-1 col-md-9 text-left filtros2 subfiltros">
+            <form action="" class="form-inline">
+                <div class="form-group">
+                    <label for="nombre">Nombre / Apellidos: </label>
+                    <input class="form-control" type="text" id="nombre" placeholder="..." style="width:280px;">
+                </div>
+                <div class="form-group">
+                    <label for="identificador">&nbsp;&nbsp;&nbsp;id Lotus: </label>
+                    <input type="text" class="form-control" id="identificador" placeholder="juxxxxxx">
+                </div>
+                <div class="form-group">
+                    <button type="button" class="btn" onclick="paginacion();
+                            return false;" style="background: transparent"><i class="fa fa-search-plus"></i></button>
+                    <button type="button" class="btn" id="limpiarFecha" style="background: transparent; padding-left:5px;"><i class="fa fa-times-circle "></i></button>
+                </div>
+                &nbsp;&nbsp;&nbsp;<a href="#" data-toggle="modal" data-target="#selectorFichero" id="seleccionFichero"><i class="fa fa-floppy-o"></i> &nbsp;&nbsp;Importar fichero</a>
+            </form>
+        </div>
+    </div>
 </div>
 <!-- /Filtros -->
 
-<!-- nav -->        
-<nav>        
-    <table style="text-align: center; font-size: 11px;">
-        <tr>
-            <td>
-                {if Session::acceso(Session::get('level'))}  
-                    <a href="" onclick="mostrar('selectorFichero');
-                            return false;" >&nbsp;&nbsp;<img src="{$_layoutParams.root}public/img/nav/agregar.png" title="Agregar"/></a>    
-                    {else}                
-                    <img src="{$_layoutParams.root}public/img/nav/agregar_noacceso.png" title="No permitido"/>
-                {/if}                                                
-            </td>
-        </tr>
-        <tr>
-            <td style="text-align: center;">
-                &nbsp;&nbsp;&nbsp;&nbsp;Importar
-            </td>
-        </tr>
-        <tr>
-            <td >
-                <a href="{$_layoutParams.root}migraciones/index/informe_estado"><img src="{$_layoutParams.root}public/img/nav/informe.png" alt="Agregar"/></a>                
-            </td>
-        </tr>
-        <tr>
-            <td style="text-align: center;">
-                &nbsp;&nbsp;&nbsp;&nbsp;Resumen
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <img src="{$_layoutParams.root}public/img/nav/impresora.png" title="Imprimir vista"/>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                &nbsp;&nbsp;&nbsp;Imprimir
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <a href="{$_layoutParams.root}">&nbsp;&nbsp;&nbsp;<img src="{$_layoutParams.root}public/img/nav/atras.png" alt="Agregar"/></a>
-            </td>
-        </tr>       
-        <tr>
-            <td style="text-align: center;">
-                &nbsp;&nbsp;&nbsp;Volver
-            </td>
-        </tr>
-    </table>                                           
-</nav>
-<!-- /nav -->  
-
 <!-- Refrescar -->
-<div id="refrescar">
+<div class="container" style="padding-top: 4px;" id="refrescar">
     <!-- ListadoMigracion -->
-    <div id="listadoIndex" style="width:auto;">      
-        {if isset($migraciones) && count($migraciones)}          
-            <table id="tablaListado">
-                <tr>                
-                    <th>idLotus</th>
-                    <th>Nombre</th>
-                    <th>Cargo</th>
-                    <th>Fecha inicio</th>
-                    <th>Fecha Fin</th>
-                    <th>Estado Inicial</th>
-                    <th>Estado Final</th>                    
-                    <th>Observaciones</th>
-                </tr>
-
-                {foreach item=datos from=$migraciones}                   
-                    <tr>                    
-                        <td style="cursor: pointer;text-align: center;" id="indice" onclick="load({$datos.idMigracion});">{$datos.idLotus}</td>                    
-                        <td>{$datos.apellidos}, {$datos.nombre}</td>
-                        <td><input type="text" class="valor" name="cargo" size="17" value="{$datos.cargo}"/></td>                    
-                        <td><input type="text" class="valor" name="fechaInicio" size="17" value="{$datos.fecha_Inicio}"/></td>  
-                        <td><input type="text" class="valor" name="fechaFin" size="17" value="{$datos.fecha_Fin}"/></td>  
-                        <td><input type="text" class="valor" name="estado_inicial" size="15" value="{$datos.estado_inicial}"/></td> 
-                        <td><input type="text" class="valor" name="estado_final" size="15" value="{$datos.estado_final}"/></td>                                                                                           
-                        <td><input type="text" class="valor" name="estado_observaciones" size="80" value="{$datos.observaciones}"/></td>
+    <div class="row">
+        <div class="col-xs-12 col-md-push-1 col-md-11" id="listadoIndex">
+            {if isset($migraciones) && count($migraciones)}
+                <table id="tablaListado">
+                    <tr>
+                        <th>idLotus</th>
+                        <th>Tecnico</th>
+                        <th>Nombre</th>
+                        <th>Cargo</th>
+                        <th>Comunidad</th>
+                        <th>Provincia</th>
+                        <th>Sede</th>
+                        <th>Fecha inicio</th>
+                        <th>Fecha Fin</th>
+                        <th>Estado Inicial</th>
+                        <th>Estado Final</th>
+                        <th>Observaciones</th>
                     </tr>
-                {/foreach}                
-            </table>
-        {else}
-            <p><strong>No hay migraciones registradas.&nbsp;&nbsp;&nbsp; <img src="{$_layoutParams.root}/public/img/calendario_blank.png" alt="Editar"/></strong></p>
-                {/if}              
-    </div>    
-
-    <div id="contador">
-        Registros: {$contador}
+                    {foreach item=datos from=$migraciones}
+                        {if Session::acceso(Session::get('level'))}
+                            <tr onclick="load({$datos.idMigracion});">
+                            {else}
+                            <tr>
+                            {/if}
+                            <td style="cursor: pointer;text-align: center;" id="indice">{$datos.idLotus}</td>
+                            <td style="text-align: center;">
+                                {if $datos.idTecnico>0}
+                                    <i class="glyphicon glyphicon-user" title="{$datos.tecnico}"></i>
+                                {else}
+                                    <i class="glyphicon glyphicon-question-sign" title="Sin asignar"></i>
+                                {/if}
+                            </td>
+                            <td>{$datos.apellidos}, {$datos.nombre}</td>
+                            <td>{$datos.cargo}</td>
+                            <td>{$datos.comunidad}</td>
+                            <td>{$datos.provincia}</td>
+                            <td>{$datos.desc_sede}</td>
+                            <td style="text-align: center;">{$datos.fecha_Inicio|date_format:"%d/%m/%Y"}</td>
+                            <td style="text-align: center;">{$datos.fecha_Fin|date_format:"%d/%m/%Y"}</td>
+                            <td>{$datos.estado_inicial}</td>
+                            <td>{$datos.estado_final}</td>
+                            <td>{$datos.observaciones}</td>
+                        </tr>
+                    {/foreach}
+                </table>
+            {else}
+                <br>
+                <br>
+                <br>
+                <div class="col-md-12 text-center">
+                    <strong>No hay Migraciones cargadas.</strong>
+                    <img src="./public/img/noResults.png" alt="Sin resultados"/>
+                </div>
+            {/if}
+        </div>
     </div>
+    <!-- /ListadoMigracion -->
 
-    <!-- Paginacion -->
-    <div id="paginacion">        
-        {$paginacion|default:""}
+    <!-- Pie de pagina -->
+    <div class="row" style="padding-top:5px; padding-left: 17px;">
+        <!-- contador -->
+        <div class="col-xs-4 col-md-3" style="padding-top:15px;">
+            Registros: <span class="badge" style="background:#274891;">{$contador}</span>
+        </div>
+        <!-- /contador -->
+
+        <!-- Paginacion -->
+        <div class="col-xs-8 col-xs-pull-2 col-md-9 col-md-pull-2">
+            {$paginacion|default:""}
+        </div>
+        <!-- Paginacion -->
     </div>
+    <!-- /Pie de pagina -->
 </div>
+<!-- /Refrescar -->
 
-<!-- SubirFichero -->
-<div id="selectorFichero">
-    <form method="post" name="form1" action="{$_layoutParams.root}migraciones/index/cargarExcel" enctype="multipart/form-data" onsubmit="return dameRuta();">        
-        Seleccionar fichero: <input type="file" name="fichero" />  
-        <br>
-        <br>
-        <br>
-        <br>  
-        <input type="hidden" id="excel" name="fichExcel">
-        <p style="padding-left: 140px;"><input type="submit" class="button" value="Guardar"/></p>
-    </form>      
+<!-- Emergente Selector Fichero -->
+<div id="selector">
+    <div class="panel-body">
+        <!-- Modal que oscurece la pantalla-->
+        <div class="modal fade" id="selectorFichero" tabindex="-1" role="dialog" aria-labelledby="selectorFichero" aria-hidden="true">
+            <!--Ventana que muestra el contenido -->
+            <div class="modal-dialog">
+                <!-- Contenido de la ventana -->
+                <div class="modal-content" style="width: 420px; height: 270px; text-align: center;">
+                    <!-- Titulo de la ventana -->
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="selectorFichero">Carga de datos desde plantilla</h4>
+                    </div>
+                    <!-- /Titulo de la ventana -->
+                    <!-- Cuerpo de la ventana -->
+                    <div class="modal-body" align="center">
+                        <form method="post" name="form1" action="{$_layoutParams.root}migraciones/index/cargarExcel" enctype="multipart/form-data" onsubmit="return dameRuta();">
+                            <div class="container">
+                                <br>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-6 col-md-4 text-center">
+                                        <i class="fa fa-file-excel-o fa-2x" style="vertical-align: middle;"></i>
+                                        <input type="file" name="fichero" data-filename-placement="inside">
+                                        <small class="help-block" style="text-align: center;">Pulsar para seleccionar</small>
+                                        </input>
+                                        <input type="hidden" id="excel" name="fichExcel">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <br>
+                                    <div class="col-xs-12 col-sm-12 col-md-4">
+                                        <button class="btn btn-primary" type="submit">Cargar</button>
+                                    </div>
+                                </div>
+                        </form>
+                    </div>
+                    <!-- /Cuerpo de la ventana -->
+                </div>
+                <!-- /Contenido de la ventana -->
+            </div>
+            <!-- /Ventana que muestra el contenido -->
+        </div>
+        <!-- /.modal -->
+    </div>
+    <!-- .panel-body -->
 </div>
+<!-- /Emergente Selector Ficheros -->
 
 <!-- Progreso -->
-<div id="progreso">    
+<div id="progreso">
     Cargando...
 </div>
-
-<!-- imagenMigracion -->
-<div id="imagenUpDcha">
-    <img src="{$_layoutParams.root}public/img/imgsUp/comunidades.png" alt=""/>
-</div>
-
+<!-- /Progreso -->
 <script type="text/javascript">
     function load($idMigracion) {
         document.location = 'migraciones/index/editar_migracion/' + $idMigracion;

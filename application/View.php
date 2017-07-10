@@ -96,12 +96,13 @@ class View extends Smarty {
                 'app_company' => APP_COMPANY
             )
         );
+
         if (is_readable($this->_rutas['view'] . $vista . '.tpl')) {
             if ($noLayout) {
                 $this->template_dir = $this->_rutas['view'];
                 $this->display($this->_rutas['view'] . $vista . '.tpl');
                 exit;
-            }                                   
+            }
             $this->assign('_contenido', $this->_rutas['view'] . $vista . '.tpl');
         } else {
             throw new Exception('Error de vista');

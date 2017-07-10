@@ -15,9 +15,9 @@ class Request {
             $url = array_filter($url);
 
             /* modulos de la app */
-            $this->_modules = array('personal', 'login', 'recursos', 'migraciones', 'tareas');
+            $this->_modules = array('personal', 'login', 'recursos', 'migraciones', 'tareas', 'estadisticas', 'informes');
             $this->_modulo = strtolower(array_shift($url));
-            
+
             if(!$this->_modulo){
                 $this->_modulo = false;
             }
@@ -29,7 +29,7 @@ class Request {
                     }
                     else{
                         $this->_controlador = strtolower(array_shift($url));
-                        
+
                         if(!$this->_controlador){
                             $this->_controlador = 'index';
                         }
@@ -40,9 +40,9 @@ class Request {
                      $this->_modulo = false;
                 }
             }
-            
+
             $this->_metodo = strtolower(array_shift($url));
-            $this->_argumentos = $url;                  
+            $this->_argumentos = $url;
         }
 
         if (!$this->_controlador) {
@@ -62,7 +62,7 @@ class Request {
     {
         return $this->_modulo;
     }
-    
+
     public function getControlador() {
         return $this->_controlador;
     }

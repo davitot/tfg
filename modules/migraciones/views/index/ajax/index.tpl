@@ -1,72 +1,74 @@
-
 <!-- ListadoMigracion -->
-<div id="listadoIndex" style="width:auto;">      
-    {if isset($migraciones) && count($migraciones)}          
-        <table id="tablaListado">
-            <tr>                
-                <th>idLotus</th>
-                <th>Nombre</th>
-                <th>Cargo</th>
-                <th>Fecha inicio</th>
-                <th>Fecha Fin</th>
-                <th>Estado Inicial</th>
-                <th>Estado Final</th>                    
-                <th>Observaciones</th>
-            </tr>
-
-            {foreach item=datos from=$migraciones}                   
-                <tr>                    
-                    <td style="cursor: pointer;text-align: center;" id="indice" onclick="load({$datos.idMigracion});">{$datos.idLotus}</td>                    
-                    <td>{$datos.apellidos}, {$datos.nombre}</td>
-                    <td><input type="text" class="valor" name="cargo" size="17" value="{$datos.cargo}"/></td>                    
-                    <td><input type="text" class="valor" name="fechaInicio" size="17" value="{$datos.fecha_Inicio}"/></td>  
-                    <td><input type="text" class="valor" name="fechaFin" size="17" value="{$datos.fecha_Fin}"/></td>  
-                    <td><input type="text" class="valor" name="estado_inicial" size="15" value="{$datos.estado_inicial}"/></td> 
-                    <td><input type="text" class="valor" name="estado_final" size="15" value="{$datos.estado_final}"/></td>                                                                                           
-                    <td><input type="text" class="valor" name="estado_observaciones" size="80" value="{$datos.observaciones}"/></td>
-                </tr>
-            {/foreach}                
-        </table>
+<div class="row">
+  <div class="col-xs-12 col-md-push-1 col-md-11" id="listadoIndex">
+    {if isset($migraciones) && count($migraciones)}
+    <table id="tablaListado">
+      <tr>
+        <th>idLotus</th>
+        <th>Tecnico</th>
+        <th>Nombre</th>
+        <th>Cargo</th>
+        <th>Comunidad</th>
+        <th>Provincia</th>
+        <th>Sede</th>
+        <th>Fecha inicio</th>
+        <th>Fecha Fin</th>
+        <th>Estado Inicial</th>
+        <th>Estado Final</th>
+        <th>Observaciones</th>
+      </tr>
+      {foreach item=datos from=$migraciones}
+        {if Session::acceso(Session::get('level'))}
+          <tr onclick="load({$datos.idMigracion});">
+        {else}
+        <tr>
+        {/if}
+        <td style="cursor: pointer;text-align: center;" id="indice">{$datos.idLotus}</td>
+          <td style="text-align: center;">
+            {if $datos.idTecnico>0}
+            <i class="glyphicon glyphicon-user" title="{$datos.tecnico}"></i>
+            {else}
+            <i class="glyphicon glyphicon-question-sign" title="Sin asignar"></i>
+            {/if}
+        </td>
+        <td>{$datos.apellidos}, {$datos.nombre}</td>
+        <td>{$datos.cargo}</td>
+        <td>{$datos.comunidad}</td>
+        <td>{$datos.provincia}</td>
+        <td>{$datos.desc_sede}</td>
+        <td>{$datos.fecha_Inicio}</td>
+        <td>{$datos.fecha_Fin}</td>
+        <td>{$datos.estado_inicial}</td>
+        <td>{$datos.estado_final}</td>
+        <td>{$datos.observaciones}</td>
+      </tr>
+      {/foreach}
+    </table>
     {else}
-        <p><strong>No hay migraciones registradas.&nbsp;&nbsp;&nbsp; <img src="{$_layoutParams.root}/public/img/calendario_blank.png" alt="Editar"/></strong></p>
-            {/if}              
-</div>   
-
-<div id="contador">
-    Registros: {$contador}
+    <br>
+    <br>
+    <br>
+    <div class="col-md-12 text-center">
+      <strong>No hay Migraciones cargadas.</strong>
+      <img src="./public/img/noResults.png" alt="Sin resultados"/>
+    </div>
+    {/if}
+  </div>
 </div>
+<!-- /ListadoMigracion -->
 
-<!-- Paginacion -->
-<div id="paginacion">        
-    {$paginacion|default:""}  
+<!-- Pie de pagina -->
+<div class="row" style="padding-top:5px; padding-left: 17px;">
+  <!-- contador -->
+  <div class="col-xs-4 col-md-3" style="padding-top:15px;">
+    Registros: <span class="badge" style="background:#274891;">{$contador}</span>
+  </div>
+  <!-- /contador -->
+
+  <!-- Paginacion -->
+  <div class="col-xs-8 col-xs-pull-2 col-md-9 col-md-pull-2">
+    {$paginacion|default:""}
+  </div>
+  <!-- Paginacion -->
 </div>
-
-<script type="text/javascript">
-    $("td").change(function () {
-        var col = $(this).parent().children().index($(this));
-        var row = $(this).parent().parent().children().index($(this).parent());
-        var table = document.getElementById("tablaListado");
-
-        var row1 = table.rows[row];
-        var col1 = row1.cells[0];
-
-        cellsOfRow = table.rows[0].getElementsByTagName('th');
-        var titulo = cellsOfRow[col].innerHTML.toLowerCase();
-
-        var valor = $(".valor", this).val();
-        var idMigracion = col1.firstChild.nodeValue;
-
-        aux = valor.replace(" ", ",");
-
-        valor = [aux];
-
-        var url = "./migraciones/index/editar_campo/" + titulo + "/" + valor + "/" + idMigracion;
-        window.location.href = url;
-        return false;
-    });
-
-    function load($idMigracion) {
-        document.location = 'migraciones/index/editar_migracion/' + $idMigracion;
-    }
-    ;
-</script>
+<!-- /Pie de pagina -->
